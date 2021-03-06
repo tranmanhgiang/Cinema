@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+      "target": "es2017",
+      "moduleResolution": "node",
+      "jsx": "react-native",
+      "noEmit": false,
+      "resolveJsonModule": true,
+      "outDir": "outputs",
+      "sourceMap": true,
+      "allowSyntheticDefaultImports": true,
+      "preserveConstEnums": true,
+      "allowJs": true,
+      "noImplicitReturns": true,
+      "noUnusedParameters": true,
+      "noUnusedLocals": true,
+      "traceResolution": false,
+      "module": "esnext",
+      "lib": ["es6", "dom", "es5"],
+      "skipLibCheck": true,
+      "skipDefaultLibCheck": true,
+      "experimentalDecorators": true,
+      "forceConsistentCasingInFileNames": true,
+      "esModuleInterop": true,
+      "alwaysStrict": true,
+      "noImplicitThis": false,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "suppressImplicitAnyIndexErrors": true,
+      "removeComments": true,
+      "baseUrl": "./src",
+      "paths": {
+          "@pages/*": ["pages/*"],
+          "@components/*": ["components/*"],
+          "@containers/*": ["containers/*"],
+          "@services/*": ["services/*"],
+          "@common/*": ["common/*"]
+      },
+      "checkJs": false
+  },
+  "exclude": ["**/node_modules/*", "android", "ios", "jest", "build", "node_modules"]
+}
