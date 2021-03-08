@@ -14,6 +14,8 @@ import { TabBar } from "@components/AppTabs/TabBar";
 import { SpecialOffers } from "@pages/special-offers/SpecialOffers";
 import { OrdersHistory } from "@pages/orders-history/OrdersHistory";
 import { Profile } from "@pages/profile/Profile";
+import { FilmDetail } from "@pages/home/components/FilmDetail/FilmDetail";
+import { BookingTicket } from "@pages/home/components/BookingTickets/BookingTickets";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -48,6 +50,8 @@ const HomeTab = () => {
           initialRouteName={ScenesKey.HOME}
       >
           <Stack.Screen name={ScenesKey.HOME} component={Home} />
+          <Stack.Screen name={ScenesKey.FILM_DETAIL} component={FilmDetail} />
+          <Stack.Screen name={ScenesKey.BOOKING_TICKETS} component={BookingTicket} />
       </Stack.Navigator>
   );
 };

@@ -10,6 +10,8 @@ export enum ScenesKey {
     SIGN_UP = 'SignUp',
     START = 'Start',
     HOME = 'Home',
+    FILM_DETAIL = 'FilmDetail',
+    BOOKING_TICKETS = 'BookingTickets',
     SPECIAL_OFFERS = 'SpecialOffers',
     ORDERS_HISTORY = 'OrdersHistory',
     PROFILE = 'Profile',

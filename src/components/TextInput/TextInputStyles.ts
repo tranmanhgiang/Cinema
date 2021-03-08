@@ -1,4 +1,3 @@
-import { Colors } from '@common/assets/theme/variables';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({

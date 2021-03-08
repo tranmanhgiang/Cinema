@@ -4,6 +4,8 @@ import { Image, View, Text, TouchableOpacity } from "react-native";
 import styles from "./ComingSoonStyles";
 import common from "@common/assets/theme/common";
 import Icon, { VectorIconName } from "@components/VectorIcon/VectorIcon";
+import { useNavigation } from "@react-navigation/native";
+import { ScenesKey } from "@common/constants";
 
 export const ITEM_WIDTH = Math.round(SCREEN_WIDTH * 0.6);
 
@@ -51,21 +53,29 @@ export interface FilmItemProps {
 }
 
 export const ComingSoon = () => {
+    const navigation = useNavigation();
     const FilmItem = ({ item, index }: FilmItemProps) => {
         return (
-            <View
-                style={[styles.itemContainer,common.shadow]}
-            >
+            <View style={[styles.itemContainer, common.shadow]}>
                 <View key={index}>
                     <Image source={{ uri: item.imgUrl }} style={styles.image} />
                 </View>
                 <View style={styles.details}>
                     <Text style={styles.filmName}>{item.name}</Text>
                     <View style={{ flexDirection: "row" }}>
-                        <Text><Text style={styles.time}>Time:</Text> 2h30m</Text>
+                        <Text>
+                            <Text style={styles.time}>Time:</Text> 2h30m
+                        </Text>
                     </View>
-                    <Text style={styles.descriptions} numberOfLines={2}>{item.body}</Text>
-                    <TouchableOpacity style={styles.viewDetail} onPress={() => console.log('detail')} >
+                    <Text style={styles.descriptions} numberOfLines={2}>
+                        {item.body}
+                    </Text>
+                    <TouchableOpacity
+                        style={styles.viewDetail}
+                        onPress={() => {
+                            navigation.navigate(ScenesKey.FILM_DETAIL, { film : item });
+                        }}
+                    >
                         <Text style={styles.txtDetail}>Detail</Text>
                         <Icon
                             type={VectorIconName.FontAweSome}
