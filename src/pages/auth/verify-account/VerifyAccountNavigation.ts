@@ -1,8 +1,8 @@
 import { ScenesKey } from '@common/constants';
 import { NavigationProps } from '@common/types';
 
-export const goToVerifyAccount = (navigation: NavigationProps) => {
-    navigation.navigate(ScenesKey.VERIFY_ACCOUNT);
+export const goToVerifyAccount = (navigation: NavigationProps, params: any) => {
+    navigation.navigate(ScenesKey.VERIFY_ACCOUNT, params);
 };
 
 export const goToDashboard = (navigation: NavigationProps) => {

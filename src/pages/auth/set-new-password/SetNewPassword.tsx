@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -12,8 +12,12 @@ import * as Yup from "yup";
 import Button from "@components/Button/Button";
 import { Colors } from "@common/assets/theme/variables";
 import styles from "./SetNewPasswordStyles";
-import { goToVerifyAccount } from '@pages/auth/verify-account/VerifyAccountNavigation';
 import { NavigationProps, RouteNavigationProps } from "@common/types";
+import api from "@common/api";
+import { goToStart } from "../start/StartNavigation";
+import { getErrorMessage } from "@common/utils/detectErrorApi";
+import { OptionToast, OptionToastSuccess } from "@common/assets/theme/common";
+import Toast from "react-native-root-toast";
 
 export interface ForgotPasswordValues {
   password: string;
@@ -27,7 +31,7 @@ interface SetNewPasswordProps {
 
 export const SetNewPassword = ({ navigation, route }: SetNewPasswordProps): React.ReactElement => {
   const hidePassword = true;
-  const loading = false;
+  const [loading, setLoading] = useState(false);
 
   const handleInputFocus = () => {
     console.log("focus");
@@ -36,11 +40,18 @@ export const SetNewPassword = ({ navigation, route }: SetNewPasswordProps): Reac
   const getRequestSubmit = async (values: ForgotPasswordValues) => {
     const formForgotPassword = {
       email: route.params.email,
-      password: values.password,
-      confirmPassword: values.confirmPassword,
+      newPassword: values.password,
     };
-    console.log(formForgotPassword);
-    goToVerifyAccount(navigation);
+    try {
+      setLoading(true);
+      await api.auth.forgotPassword(formForgotPassword);
+      setLoading(false);
+      Toast.show('Reset password successfully', OptionToastSuccess);
+      goToStart(navigation);
+    } catch (error) {
+      setLoading(false);
+      Toast.show(getErrorMessage(error), OptionToast);
+    }
   };
 
   const getInitialValues = () => {
@@ -67,7 +78,7 @@ export const SetNewPassword = ({ navigation, route }: SetNewPasswordProps): Reac
         </View>
         <View style={styles.buttonField}>
           <ScrollView>
-            <Text style={styles.text}>Please enter your email</Text>
+            <Text style={styles.text}>Please enter your new password</Text>
             <Formik
               enableReinitialize={true}
               initialValues={getInitialValues()}

@@ -111,3 +111,21 @@ export default StyleSheet.create({
         shadowOpacity: 0.2,
     },
 });
+
+export const OptionToast = {
+    position: 30,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0,
+    backgroundColor: Colors.red,
+};
+
+export const OptionToastSuccess = {
+    position: 30,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0,
+    backgroundColor: Colors.lawnGreen,
+};

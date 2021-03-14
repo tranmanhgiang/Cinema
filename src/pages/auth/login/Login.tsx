@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -15,11 +15,17 @@ import styles from "./LoginStyles";
 import { Colors } from "@common/assets/theme/variables";
 import { ImageUrls, ScenesKey } from "@common/constants";
 import { goToDashboard } from '@pages/auth/verify-account/VerifyAccountNavigation';
+import api from '@common/api';
 import { NavigationProps } from "@common/types";
+import { loginSuccessAction } from "@services/auth/actions";
+import { useDispatch } from "react-redux";
+import { getErrorMessage } from "@common/utils/detectErrorApi";
+import Toast from 'react-native-root-toast';
+import { OptionToast } from '@common/assets/theme/common';
 
 export interface FormLogin {
-  Email: string;
-  Password: string;
+  email: string;
+  password: string;
 }
 
 interface LoginProps {
@@ -28,14 +34,28 @@ interface LoginProps {
 
 export const Login = ({ navigation }: LoginProps): React.ReactElement => {
   const hidePassword = true;
-  const loading = false;
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const handleInputFocus = () => {
     console.log("focus");
   };
 
-  const getRequestSubmit = async () => {
-    goToDashboard(navigation);
+  const getRequestSubmit = async (values: FormLogin) => {
+    try {
+      setLoading(true);
+      await api.auth.login({
+          email: values.email,
+          password: values.password,
+      });
+      dispatch(loginSuccessAction({ username: values.email }));
+      setLoading(false);
+      goToDashboard(navigation);
+  } catch (error) {
+    setLoading(false);
+    console.log(getErrorMessage(error));
+    Toast.show(getErrorMessage(error), OptionToast);
+  }
   };
 
   const getInitialValues = () => {
@@ -64,7 +84,7 @@ export const Login = ({ navigation }: LoginProps): React.ReactElement => {
             <Formik
               enableReinitialize={true}
               initialValues={getInitialValues()}
-              onSubmit={() => getRequestSubmit()}
+              onSubmit={(values) => getRequestSubmit(values)}
               validationSchema={getValidationSchema()}
             >
               {({

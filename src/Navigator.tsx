@@ -135,7 +135,7 @@ const Navigator = (): React.ReactElement => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName={ScenesKey.APP}
+        initialRouteName={ScenesKey.AUTH}
       >
         <Stack.Screen name={ScenesKey.INIT} component={Init} />
         <Stack.Screen name={ScenesKey.AUTH} component={Auth} />

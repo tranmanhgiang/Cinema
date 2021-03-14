@@ -1,5 +1,7 @@
+import { getSelectedSeats } from "@services/cinema/actions";
 import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
+import { useDispatch } from "react-redux";
 import { Seat } from "./Seat";
 import styles from "./SeatStyles";
 
@@ -9,7 +11,9 @@ interface SeatProps {
 }
 
 export const Seats = ({ isVisibleBuyTicket, setIsVisibleBuyTicket }: SeatProps) => {
+    const dispatch = useDispatch();
     const [seatSelected, setSeatSelected] = useState<number[]>([]);
+
     const renderRoom = () => {
         const seatArr: number[] = [];
         for (var i = 1; i <= 30; i++) {
@@ -37,6 +41,7 @@ export const Seats = ({ isVisibleBuyTicket, setIsVisibleBuyTicket }: SeatProps) 
         } else if (!seatSelected.length && isVisibleBuyTicket) {
             setIsVisibleBuyTicket(false);
         }
+        dispatch(getSelectedSeats({ seats: seatSelected }));
     }, [seatSelected]);
 
     return (

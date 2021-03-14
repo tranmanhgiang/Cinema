@@ -1,8 +1,9 @@
+import { AppConstants } from '@common/constants';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { stringify } from 'qs';
 
-const baseURL = '';
-// const baseLoginURL: string = '';
+const baseURL = AppConstants.API_URL;
+const baseLoginURL: string = AppConstants.API_LOGIN_URL;
 
 const ApiClient = axios.create({
     baseURL,
@@ -48,4 +49,18 @@ ApiClient.interceptors.response.use(
     }
 );
 
-export { ApiClient };
+const ApiLoginClient = axios.create({
+    baseURL: baseLoginURL,
+    timeout: 100000,
+    paramsSerializer: (params: any) => stringify(params, { arrayFormat: 'repeat' }),
+});
+ApiLoginClient.interceptors.request.use(
+    async (config: AxiosRequestConfig) => {
+        return config;
+    },
+    (error: any) => {
+        return Promise.reject(error);
+    }
+);
+
+export { ApiClient, ApiLoginClient };

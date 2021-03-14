@@ -9,11 +9,16 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { formatDate, limitDate } from "@common/utils/time";
 import { Seats } from "@components/Seats/Seats";
 import common from "@common/assets/theme/common";
+import { useDispatch, useSelector } from "react-redux";
+import { GlobalState } from "@common/redux/rootReducer";
+import { resetCheckout } from "@services/cinema/actions";
 
 export const BookingTicket = ({ route }: any) => {
+    const dispatch = useDispatch();
+    const price = useSelector((state: GlobalState) => state.ticket.price);
+    
     const { film } = route.params;
     const maximumDate = limitDate(new Date(), 7);
-
     const navigation = useNavigation();
     const [bookingDate, setBookingDate] = useState(new Date());
     const [bookingTime, setBookingTime] = useState("");
@@ -113,9 +118,9 @@ export const BookingTicket = ({ route }: any) => {
                         <View style={[styles.buyContainer, common.shadow]}>
                             <View style={styles.priceSection}>
                                 <Text>Price</Text>
-                                <Text style={styles.price}>$ 50,00</Text>
+                                <Text style={styles.price}>$ {price}</Text>
                             </View>
-                            <View style={styles.buy}>
+                            <TouchableOpacity style={styles.buy} onPress={() => {dispatch(resetCheckout())}}>
                                 <Text style={styles.txtBuy}>Buy</Text>
                                 <Icon
                                     type={VectorIconName.FontAweSome}
@@ -123,7 +128,7 @@ export const BookingTicket = ({ route }: any) => {
                                     size={20}
                                     color={Colors.black}
                                 />
-                            </View>
+                            </TouchableOpacity>
                         </View>
                     )}
                 </View>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -12,21 +12,34 @@ import * as Yup from "yup";
 import Button from "@components/Button/Button";
 import { Colors } from "@common/assets/theme/variables";
 import styles from './ResetPasswordStyles';
-import { goToSetNewPassword } from "@pages/auth/set-new-password/SetNewPasswordNavigation";
+import api from "@common/api";
+import { VERIFY_ACCOUNT_TYPE_SCREEN } from "@common/constants";
+import { goToVerifyAccount } from "../verify-account/VerifyAccountNavigation";
+import Toast from "react-native-root-toast";
+import { getErrorMessage } from "@common/utils/detectErrorApi";
+import { OptionToast } from "@common/assets/theme/common";
 
 interface ResetPasswordProps {
   navigation: any;
 }
 
 export const ResetPassword = ({ navigation }: ResetPasswordProps): React.ReactElement => {
-  const loading = false;
+  const [loading, setLoading] = useState(false);
 
   const handleInputFocus = () => {
     console.log("focus");
   };
 
   const getRequestSubmit = async (values: { email: string }) => {
-    goToSetNewPassword(navigation, {email: values.email});
+    try {
+      setLoading(true);
+      const res = await api.auth.sendEmailForgotPassword({ email: values.email });
+      setLoading(false);
+      goToVerifyAccount(navigation, { hash: res.hash , email: values.email, type: VERIFY_ACCOUNT_TYPE_SCREEN.RESET_PASSWORD });  
+    } catch (error) {
+      setLoading(false);
+      Toast.show(getErrorMessage(error), OptionToast);
+    }
   };
 
   const getInitialValues = () => {
@@ -35,7 +48,7 @@ export const ResetPassword = ({ navigation }: ResetPasswordProps): React.ReactEl
 
   const getValidationSchema = () => {
     return Yup.object().shape({
-        email: Yup.string().email().required("Username required"),
+        email: Yup.string().email().required("This field is required"),
     });
   };
 

@@ -23,6 +23,7 @@ export enum Colors {
   gray = 'gray',
   blackCurrant = '#6c3ee9',
   darkShade = '#222',
+  lawnGreen = '#7CFC00',
 }
 
 export enum FontSize {

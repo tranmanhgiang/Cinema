@@ -41,3 +41,8 @@ export const ImageUrls = {
     LOGO: require('@common/assets/images/logo.png'),
     BACK: require('@common/assets/images/back.png'),
 };
+
+export const VERIFY_ACCOUNT_TYPE_SCREEN = {
+    SIGN_UP: 'SignUp',
+    RESET_PASSWORD: 'ResetPassword',
+};

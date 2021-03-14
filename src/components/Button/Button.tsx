@@ -1,3 +1,4 @@
+import { Colors } from '@common/assets/theme/variables';
 import React from 'react';
 import { ActivityIndicator, StyleProp, TouchableOpacity, TouchableOpacityProps, ViewStyle } from 'react-native';
 
@@ -19,7 +20,7 @@ type Props = ButtonProps & TouchableOpacityProps;
 const Button = ({ children, loading = false, onPress, buttonContainerStyle }: Props): React.ReactElement => {
     return (
         <TouchableOpacity style={[styles.buttonContainer, buttonContainerStyle]} onPress={onPress}>
-            {loading && children && <ActivityIndicator />}
+            {loading && children && <ActivityIndicator color={Colors.white} />}
             {!loading && children}
         </TouchableOpacity>
     );

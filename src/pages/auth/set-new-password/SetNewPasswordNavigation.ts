@@ -1,6 +1,5 @@
 import { ScenesKey } from '@common/constants';
-import { NavigationProps } from '@common/types';
 
-export const goToSetNewPassword = (navigation: NavigationProps, params: any) => {
+export const goToSetNewPassword = (navigation: any, params: any) => {
     navigation.navigate(ScenesKey.SET_NEW_PASSWORD, params);
 };
