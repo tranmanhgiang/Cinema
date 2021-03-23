@@ -9,3 +9,11 @@ export const limitDate = (date: Date, days: number) => {
     result.setDate(result.getDate() + days);
     return result;
 }
+
+export const formatOrderByDate = () => {
+    return dayjs(new Date()).format('ssmmHHDDMMYYYY');
+}
+
+export const formatDateOfBirth = (date: Date) => {
+    return dayjs(date).format('DD/MM/YYYY');
+}

@@ -1,29 +1,22 @@
-import { Colors } from "@common/assets/theme/variables";
-import React, { useState } from "react";
-import { Text, TouchableOpacity, View, ScrollView } from "react-native";
-import styles from "./BookingTicketStyles";
-import Icon, { VectorIconName } from "@components/VectorIcon/VectorIcon";
-import Header from "@components/AppHeader/Header";
-import { useNavigation } from "@react-navigation/native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { formatDate, limitDate } from "@common/utils/time";
-import { Seats } from "@components/Seats/Seats";
-import common from "@common/assets/theme/common";
-import { useDispatch, useSelector } from "react-redux";
-import { GlobalState } from "@common/redux/rootReducer";
-import { resetCheckout } from "@services/cinema/actions";
+import { Colors } from '@common/assets/theme/variables';
+import React, { useEffect, useState } from 'react';
+import { Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import styles from './BookingTicketStyles';
+import Icon, { VectorIconName } from '@components/VectorIcon/VectorIcon';
+import Header from '@components/AppHeader/Header';
+import { useNavigation } from '@react-navigation/native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { formatDate, limitDate } from '@common/utils/time';
+import { ScenesKey } from '@common/constants';
 
 export const BookingTicket = ({ route }: any) => {
-    const dispatch = useDispatch();
-    const price = useSelector((state: GlobalState) => state.ticket.price);
-    
     const { film } = route.params;
     const maximumDate = limitDate(new Date(), 7);
     const navigation = useNavigation();
     const [bookingDate, setBookingDate] = useState(new Date());
-    const [bookingTime, setBookingTime] = useState("");
+    const [bookingTime, setBookingTime] = useState('');
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [isVisibleBuyTicket, setIsVisibleBuyTicket] = useState(false);
+    const [cinemaSelected, setCinemaSelected] = useState<string>('');
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -40,29 +33,21 @@ export const BookingTicket = ({ route }: any) => {
 
     const renderLeftTabBar = () => {
         return (
-            <TouchableOpacity
-                style={styles.leftHeader}
-                onPress={() => navigation.goBack()}
-            >
-                <Icon
-                    type={VectorIconName.FontAweSome}
-                    name="arrow-left"
-                    size={18}
-                    color={Colors.black}
-                />
+            <TouchableOpacity style={styles.leftHeader} onPress={() => navigation.goBack()}>
+                <Icon type={VectorIconName.FontAweSome} name="arrow-left" size={18} color={Colors.black} />
                 <Text style={styles.txtBack}>Back</Text>
             </TouchableOpacity>
         );
     };
 
-    const time_fixed = [
-        "8:00 AM",
-        "10:00 AM",
-        "13:00 AM",
-        "16:00 AM",
-        "20:00 AM",
-    ];
+    const time_fixed = ['8:00 AM', '10:00 AM', '13:00 AM', '16:00 AM', '20:00 AM'];
+    const cinema_fixed = ['cinema 1', 'cinema 2'];
 
+    useEffect(() => {
+        if (cinemaSelected && bookingDate && bookingTime) {
+            navigation.navigate(ScenesKey.CHOOSE_SEATS, { cinemaSelected: cinemaSelected, bookingTime, film: film });
+        }
+    }, [cinemaSelected, bookingTime, bookingDate]);
     return (
         <>
             <Header leftTabBar={renderLeftTabBar()} />
@@ -75,62 +60,46 @@ export const BookingTicket = ({ route }: any) => {
                             {formatDate(bookingDate)}
                         </Text>
                         <TouchableOpacity onPress={showDatePicker}>
-                            <Icon
-                                type={VectorIconName.FontAweSome}
-                                name="calendar"
-                                size={25}
-                                color={Colors.black}
-                            />
+                            <Icon type={VectorIconName.FontAweSome} name="calendar" size={25} color={Colors.black} />
                         </TouchableOpacity>
                     </View>
-                    <View>
-                        <Text style={styles.txtDate}>Time: </Text>
-                        <View style={styles.timeDetail}>
-                            {time_fixed.map((time, index) => {
-                                return (
-                                    <Text
-                                        key={index}
-                                        onPress={() => {
-                                            setBookingTime(time);
-                                        }}
-                                        style={
-                                            bookingTime === time
-                                                ? styles.timeItemSelected
-                                                : styles.timeItem
-                                        }
-                                    >
-                                        {time}
-                                    </Text>
-                                );
-                            })}
-                        </View>
-                    </View>
-                    <View>
-                        <View style={styles.screen}>
-                            <Text style={styles.txtScreen}>Screen</Text>
-                        </View>
-                        <Seats
-                            isVisibleBuyTicket={isVisibleBuyTicket}
-                            setIsVisibleBuyTicket={setIsVisibleBuyTicket}
-                        />
-                    </View>
-                    {isVisibleBuyTicket && (
-                        <View style={[styles.buyContainer, common.shadow]}>
-                            <View style={styles.priceSection}>
-                                <Text>Price</Text>
-                                <Text style={styles.price}>$ {price}</Text>
+                    {cinema_fixed.map((cinema, index) => {
+                        return (
+                            <View key={index} style={{ borderColor: 'gray', borderBottomWidth: 1, marginVertical: 10 }}>
+                                <TouchableOpacity
+                                    style={styles.room}
+                                    onPress={() => {
+                                        setCinemaSelected(cinema);
+                                    }}
+                                >
+                                    <Text>{cinema}</Text>
+                                    <Icon
+                                        type={VectorIconName.FontAweSome}
+                                        name={cinemaSelected === cinema ? 'angle-up' : 'angle-down'}
+                                        size={25}
+                                        color={Colors.black}
+                                    />
+                                </TouchableOpacity>
+                                {cinemaSelected === cinema && (
+                                    <View style={styles.timeDetail}>
+                                        {time_fixed.map((time, index) => {
+                                            return (
+                                                <Text
+                                                    key={index}
+                                                    onPress={() => {
+                                                        setBookingTime(time);
+                                                    }}
+                                                    style={bookingTime === time ? styles.timeItemSelected : styles.timeItem}
+                                                >
+                                                    {time}
+                                                </Text>
+                                            );
+                                        })}
+                                    </View>
+                                )}
                             </View>
-                            <TouchableOpacity style={styles.buy} onPress={() => {dispatch(resetCheckout())}}>
-                                <Text style={styles.txtBuy}>Buy</Text>
-                                <Icon
-                                    type={VectorIconName.FontAweSome}
-                                    name="arrow-right"
-                                    size={20}
-                                    color={Colors.black}
-                                />
-                            </TouchableOpacity>
-                        </View>
-                    )}
+                        );
+                    })}
                 </View>
             </ScrollView>
             <DateTimePickerModal

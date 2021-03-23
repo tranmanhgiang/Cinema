@@ -15,10 +15,13 @@ export enum ScenesKey {
     SPECIAL_OFFERS = 'SpecialOffers',
     ORDERS_HISTORY = 'OrdersHistory',
     PROFILE = 'Profile',
+    EDIT_INFORMATION = 'EditInformation',
     TABS_PAGE = 'TabsPage',
     VERIFY_ACCOUNT = 'VerifyAccount',
     RESET_PASSWORD = 'ResetPassword',
     SET_NEW_PASSWORD = 'SetNewPassword',
+    CHOOSE_SEATS = 'ChooseSeats',
+    PAYMENT = 'Payment',
     SCREEN_1 = 'Screen 1',
     SCREEN_2 = 'Screen 2',
     TEST = 'TEST',
@@ -39,10 +42,19 @@ export const FONTS = {
 export const ImageUrls = {
     BACKGROUND: require('@common/assets/images/startBackground.png'),
     LOGO: require('@common/assets/images/logo.png'),
-    BACK: require('@common/assets/images/back.png'),
+    VISA: require('@common/assets/images/visa.png'),
+    MASTER_CARD: require('@common/assets/images/masterCard.png'),
+    PAY_PAL: require('@common/assets/images/paypal.png'),
+    CVC: require('@common/assets/images/cvc.png'),
+    SUCCESS: require('@common/assets/images/success.png'),
 };
 
 export const VERIFY_ACCOUNT_TYPE_SCREEN = {
     SIGN_UP: 'SignUp',
     RESET_PASSWORD: 'ResetPassword',
+};
+
+export const FILM_DETAIL_TYPE_SCREEN = {
+    CAN_BOOK_TICKET: 'CanBookTicket',
+    CAN_NOT_BOOK_TICKET: 'CanNotBookTicket',
 };

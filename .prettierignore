@@ -1,0 +1,32 @@
+## file extensions
+*.*
+!*.js
+!*.json
+!*.jsx
+!*.ts
+!*.tsx
+
+# ignore folder/file
+node_modules/
+.editorconfig
+.env
+.env.prod
+.env.staging
+.flowconfig
+.gitattributes
+.gitignore
+yarn-error.log
+yarn.lock
+README.md
+babel.config.js
+tsconfig.json
+metro.config.js
+tslint.json
+.prettierignore
+.prettierrc
+.watchmanconfig
+.buckconfig
+app.json
+android/
+ios/
+index.js

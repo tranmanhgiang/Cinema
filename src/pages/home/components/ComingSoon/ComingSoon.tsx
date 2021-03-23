@@ -5,7 +5,7 @@ import styles from "./ComingSoonStyles";
 import common from "@common/assets/theme/common";
 import Icon, { VectorIconName } from "@components/VectorIcon/VectorIcon";
 import { useNavigation } from "@react-navigation/native";
-import { ScenesKey } from "@common/constants";
+import { FILM_DETAIL_TYPE_SCREEN, ScenesKey } from "@common/constants";
 
 export const ITEM_WIDTH = Math.round(SCREEN_WIDTH * 0.6);
 
@@ -73,7 +73,7 @@ export const ComingSoon = () => {
                     <TouchableOpacity
                         style={styles.viewDetail}
                         onPress={() => {
-                            navigation.navigate(ScenesKey.FILM_DETAIL, { film : item });
+                            navigation.navigate(ScenesKey.FILM_DETAIL, { film : item, type: FILM_DETAIL_TYPE_SCREEN.CAN_NOT_BOOK_TICKET });
                         }}
                     >
                         <Text style={styles.txtDetail}>Detail</Text>

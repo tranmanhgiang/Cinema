@@ -6,9 +6,10 @@ import common from "@common/assets/theme/common";
 import Icon, { VectorIconName } from "@components/VectorIcon/VectorIcon";
 import Header from "@components/AppHeader/Header";
 import { useNavigation } from "@react-navigation/native";
+import { FILM_DETAIL_TYPE_SCREEN } from "@common/constants";
 
 export const FilmDetail = ({ route }: any) => {
-    const { film } = route.params;
+    const { film, type } = route.params;
     const navigation = useNavigation();
 
     const renderLeftTabBar = () => {
@@ -42,15 +43,17 @@ export const FilmDetail = ({ route }: any) => {
                     <View style={styles.details}>
                         <View style={styles.topDescriptions}>
                             <Text style={styles.filmName}>{film.name}</Text>
-                            <TouchableOpacity style={styles.bookingTicket}>
-                                <Text style={styles.txtTicket}>Ticket</Text>
-                                <Icon
-                                    type={VectorIconName.FontAweSome}
-                                    name="long-arrow-right"
-                                    size={18}
-                                    color={Colors.white}
-                                />
-                            </TouchableOpacity>
+                            {type === FILM_DETAIL_TYPE_SCREEN.CAN_BOOK_TICKET && (
+                                <TouchableOpacity style={styles.bookingTicket}>
+                                    <Text style={styles.txtTicket}>Ticket</Text>
+                                    <Icon
+                                        type={VectorIconName.FontAweSome}
+                                        name="long-arrow-right"
+                                        size={18}
+                                        color={Colors.white}
+                                    />
+                                </TouchableOpacity>
+                            )}
                         </View>
                         <Text style={styles.descriptions}>{film.body}</Text>
                     </View>

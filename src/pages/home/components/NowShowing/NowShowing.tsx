@@ -5,7 +5,7 @@ import Icon, { VectorIconName } from "@components/VectorIcon/VectorIcon";
 import styles from "./NowShowingStyles";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-import { ScenesKey } from "@common/constants";
+import { ScenesKey, FILM_DETAIL_TYPE_SCREEN } from "@common/constants";
 
 export const ITEM_WIDTH = Math.round(SCREEN_WIDTH * 0.6);
 
@@ -57,9 +57,13 @@ export const NowShowing = () => {
     const FilmItem = ({ item, index }: FilmItemProps) => {
         return (
             <View style={{ padding: 16 }}>
-                <View key={index}>
-                    <Image source={{ uri: item.imgUrl }} style={styles.image} />
-                </View>
+                <TouchableOpacity 
+                    key={index} 
+                    onPress={() => {
+                        navigation.navigate(ScenesKey.FILM_DETAIL, { film : item, type: FILM_DETAIL_TYPE_SCREEN.CAN_BOOK_TICKET });
+                    }}>
+                        <Image source={{ uri: item.imgUrl }} style={styles.image} />
+                </TouchableOpacity>
                 <View style={styles.infoFilm}>
                     <View style={styles.leftInfo}>
                         <Text style={styles.filmName}>{item.name}</Text>

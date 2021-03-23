@@ -1,6 +1,6 @@
 import { FONTS } from '@common/constants';
 import { StyleSheet } from 'react-native';
-import { isIphoneX, isAndroid } from '../../../common/utils/detectPlatform';
+import { isIphoneX, isAndroid } from '@common/utils/detectPlatform';
 import { Colors } from './variables';
 
 export default StyleSheet.create({

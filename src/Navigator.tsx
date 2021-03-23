@@ -16,6 +16,9 @@ import { OrdersHistory } from "@pages/orders-history/OrdersHistory";
 import { Profile } from "@pages/profile/Profile";
 import { FilmDetail } from "@pages/home/components/FilmDetail/FilmDetail";
 import { BookingTicket } from "@pages/home/components/BookingTickets/BookingTickets";
+import { ChooseSeats } from "@pages/home/components/BookingTickets/components/ChooseSeats";
+import { Payment } from "@pages/home/components/BookingTickets/components/Payment";
+import { Information } from "@pages/profile/components/Informations";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -52,6 +55,8 @@ const HomeTab = () => {
           <Stack.Screen name={ScenesKey.HOME} component={Home} />
           <Stack.Screen name={ScenesKey.FILM_DETAIL} component={FilmDetail} />
           <Stack.Screen name={ScenesKey.BOOKING_TICKETS} component={BookingTicket} />
+          <Stack.Screen name={ScenesKey.CHOOSE_SEATS} component={ChooseSeats} />
+          <Stack.Screen name={ScenesKey.PAYMENT} component={Payment} />
       </Stack.Navigator>
   );
 };
@@ -65,6 +70,7 @@ const ProfileTab = () => {
           initialRouteName={ScenesKey.PROFILE}
       >
           <Stack.Screen name={ScenesKey.PROFILE} component={Profile} />
+          <Stack.Screen name={ScenesKey.EDIT_INFORMATION} component={Information} />
       </Stack.Navigator>
   );
 };
@@ -135,7 +141,7 @@ const Navigator = (): React.ReactElement => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName={ScenesKey.AUTH}
+        initialRouteName={ScenesKey.APP}
       >
         <Stack.Screen name={ScenesKey.INIT} component={Init} />
         <Stack.Screen name={ScenesKey.AUTH} component={Auth} />

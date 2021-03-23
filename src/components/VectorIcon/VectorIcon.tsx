@@ -4,6 +4,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAweSome from 'react-native-vector-icons/FontAwesome';
 import Foundation from 'react-native-vector-icons/Foundation';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Feather from 'react-native-vector-icons/Feather';
 import { View, ViewStyle, StyleProp } from 'react-native';
 
 export enum VectorIconName {
@@ -12,6 +13,8 @@ export enum VectorIconName {
     Entypo = 'Entypo',
     Foundation = 'Foundation',
     MaterialIcons = 'MaterialIcons',
+    EvilIcons = 'EvilIcons',
+    Feather = 'Feather',
 }
 
 export interface IconProps {
@@ -30,6 +33,7 @@ const Icon = ({ type, name = '', size, color, containerStyle = {} }: IconProps) 
             {type === VectorIconName.Entypo && <Entypo name={name} size={size} color={color} />}
             {type === VectorIconName.Foundation && <Foundation name={name} size={size} color={color} />}
             {type === VectorIconName.MaterialIcons && <MaterialIcons name={name} size={size} color={color} />}
+            {type === VectorIconName.Feather && <Feather name={name} size={size} color={color} />}
         </View>
     );
 };
