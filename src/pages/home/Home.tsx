@@ -37,15 +37,15 @@ export const Home = () => {
             <Header leftTabBar={renderLeftTabBar()} rightTabBar={renderRightTabBar()} />
             <ScrollView style={{ marginBottom: 55 }}>
                 <View style={styles.section}>
-                    <Text style={styles.title}>Suggests</Text>
+                    <Text style={styles.title}>Gợi ý</Text>
                     <Suggests />
                 </View>
                 <View style={styles.section}>
-                    <Text style={styles.title}>Now Showing</Text>
+                    <Text style={styles.title}>Đang chiếu</Text>
                     <NowShowing />
                 </View>
                 <View style={styles.section}>
-                    <Text style={styles.title}>Coming Soon</Text>
+                    <Text style={styles.title}>Sắp chiếu</Text>
                     <ComingSoon />
                 </View>
             </ScrollView>

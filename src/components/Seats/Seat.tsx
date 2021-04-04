@@ -1,17 +1,22 @@
+import { SeatStatus } from '@common/types';
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import styles from './SeatStyles';
 
 interface SeatProps {
-    labelSeat: number;
-    handleSelect: (labelSeat: number) => void;
-    isSelected: boolean;
+    seat: SeatStatus;
+    handleSelect: (seat: SeatStatus) => void;
+    isSelect: boolean;
 }
 
-export const Seat = ({ labelSeat, handleSelect, isSelected }: SeatProps) => {
+export const Seat = ({ seat, handleSelect, isSelect }: SeatProps) => {
     return (
-        <TouchableOpacity onPress={() => {handleSelect(labelSeat)}}>
-            <Text style={isSelected ? styles.seatSelected : styles.seat}>{labelSeat}</Text>
+        <TouchableOpacity
+            onPress={() => {
+                handleSelect(seat);
+            }}
+        >
+            <Text style={isSelect ? styles.seatSelected : styles.seat}>{seat.index}</Text>
         </TouchableOpacity>
     );
 };

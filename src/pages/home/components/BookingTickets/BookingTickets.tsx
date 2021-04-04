@@ -8,15 +8,36 @@ import { useNavigation } from '@react-navigation/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { formatDate, limitDate } from '@common/utils/time';
 import { ScenesKey } from '@common/constants';
+import api from '@common/api';
+import dayjs from 'dayjs';
 
 export const BookingTicket = ({ route }: any) => {
     const { film } = route.params;
     const maximumDate = limitDate(new Date(), 7);
     const navigation = useNavigation();
-    const [bookingDate, setBookingDate] = useState(new Date());
-    const [bookingTime, setBookingTime] = useState('');
+    const [bookingDate, setBookingDate] = useState<any>(dayjs(new Date()).format('YYYY-MM-DD'));
+    const [bookingTime, setBookingTime] = useState<number>();
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [cinemaSelected, setCinemaSelected] = useState<string>('');
+    const [cinemaSelected, setCinemaSelected] = useState<number>();
+    const [cinema, setCinema] = useState<number[]>([]);
+    const [showTime, setShowTime] = useState<number[]>([]);
+    const [resTemp, setResTemp] = useState<any>();
+
+    const getCinemaByFilmId = async () => {
+        const res = await api.cinema.getCinemaById({ date: bookingDate, filmId: film.id });
+        setResTemp(res);
+        const newCinema: number[] = [];
+        res.data.map((item: any) => {
+            if (!newCinema.includes(item.roomId)) {
+                newCinema.push(item.roomId);
+            }
+        });
+        setCinema(newCinema);
+    };
+
+    useEffect(() => {
+        getCinemaByFilmId();
+    }, [bookingDate]);
 
     const showDatePicker = () => {
         setDatePickerVisibility(true);
@@ -27,65 +48,75 @@ export const BookingTicket = ({ route }: any) => {
     };
 
     const handleConfirm = (date: Date) => {
-        setBookingDate(date);
+        setBookingDate(dayjs(date).format('YYYY-MM-DD'));
         hideDatePicker();
+    };
+
+    const handleSelectTheater = (theaterId: number) => {
+        setCinemaSelected(theaterId);
+        const timeOfTheater: any[] = [];
+        resTemp.data.map((item: any) => {
+            if (item.roomId === theaterId) {
+                timeOfTheater.push(dayjs(parseInt(item.timeMilestones, 10)).format('HH:mm A'));
+            }
+        });
+
+        setShowTime(timeOfTheater);
     };
 
     const renderLeftTabBar = () => {
         return (
             <TouchableOpacity style={styles.leftHeader} onPress={() => navigation.goBack()}>
                 <Icon type={VectorIconName.FontAweSome} name="arrow-left" size={18} color={Colors.black} />
-                <Text style={styles.txtBack}>Back</Text>
+                <Text style={styles.txtBack}>Trở lại</Text>
             </TouchableOpacity>
         );
     };
 
-    const time_fixed = ['8:00 AM', '10:00 AM', '13:00 AM', '16:00 AM', '20:00 AM'];
-    const cinema_fixed = ['cinema 1', 'cinema 2'];
-
     useEffect(() => {
         if (cinemaSelected && bookingDate && bookingTime) {
-            navigation.navigate(ScenesKey.CHOOSE_SEATS, { cinemaSelected: cinemaSelected, bookingTime, film: film });
+            navigation.navigate(ScenesKey.CHOOSE_SEATS, { cinemaSelected, bookingDate, bookingTime, film });
         }
     }, [cinemaSelected, bookingTime, bookingDate]);
+
     return (
         <>
             <Header leftTabBar={renderLeftTabBar()} />
             <ScrollView>
                 <View style={styles.itemContainer}>
-                    <Text style={styles.filmName}>{film.name}</Text>
+                    <Text style={styles.filmName}>{film.filmName}</Text>
                     <View style={styles.chooseDate}>
                         <Text>
-                            <Text style={styles.txtDate}>Date: </Text>
+                            <Text style={styles.txtDate}>Ngày: </Text>
                             {formatDate(bookingDate)}
                         </Text>
                         <TouchableOpacity onPress={showDatePicker}>
                             <Icon type={VectorIconName.FontAweSome} name="calendar" size={25} color={Colors.black} />
                         </TouchableOpacity>
                     </View>
-                    {cinema_fixed.map((cinema, index) => {
+                    {cinema.map((item, index) => {
                         return (
                             <View key={index} style={{ borderColor: 'gray', borderBottomWidth: 1, marginVertical: 10 }}>
                                 <TouchableOpacity
                                     style={styles.room}
                                     onPress={() => {
-                                        setCinemaSelected(cinema);
+                                        handleSelectTheater(item);
                                     }}
                                 >
-                                    <Text>{cinema}</Text>
+                                    <Text>cinema {item}</Text>
                                     <Icon
                                         type={VectorIconName.FontAweSome}
-                                        name={cinemaSelected === cinema ? 'angle-up' : 'angle-down'}
+                                        name={cinemaSelected === item ? 'angle-up' : 'angle-down'}
                                         size={25}
                                         color={Colors.black}
                                     />
                                 </TouchableOpacity>
-                                {cinemaSelected === cinema && (
+                                {cinemaSelected === item && (
                                     <View style={styles.timeDetail}>
-                                        {time_fixed.map((time, index) => {
+                                        {showTime.map((time, idx) => {
                                             return (
                                                 <Text
-                                                    key={index}
+                                                    key={idx}
                                                     onPress={() => {
                                                         setBookingTime(time);
                                                     }}
@@ -107,7 +138,7 @@ export const BookingTicket = ({ route }: any) => {
                 mode="date"
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
-                minimumDate={new Date()}
+                // minimumDate={new Date()}
                 maximumDate={maximumDate}
             />
         </>

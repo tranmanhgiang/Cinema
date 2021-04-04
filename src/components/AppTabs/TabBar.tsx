@@ -32,45 +32,17 @@ export const TabBar = ({ state, navigation }: TabBarProps) => {
                 let icon = <></>;
                 let labelFocus: string = '';
                 if (route.name === ScenesKey.HOME) {
-                    labelFocus = isFocused ? '•' : '',
-                    icon = (
-                        <Icon
-                            type={VectorIconName.FontAweSome}
-                            name="home"
-                            size={25}
-                            color={isFocused ? Colors.red : Colors.black}
-                        />
-                    );
+                    (labelFocus = isFocused ? '•' : ''),
+                        (icon = <Icon type={VectorIconName.FontAweSome} name="home" size={25} color={isFocused ? Colors.red : Colors.black} />);
                 } else if (route.name === ScenesKey.SPECIAL_OFFERS) {
-                    labelFocus = isFocused ? '•' : '',
-                    icon = (
-                        <Icon
-                            type={VectorIconName.FontAweSome}
-                            name="gift"
-                            size={25}
-                            color={isFocused ? Colors.red : Colors.black}
-                        />
-                    );
+                    (labelFocus = isFocused ? '•' : ''),
+                        (icon = <Icon type={VectorIconName.FontAweSome} name="gift" size={25} color={isFocused ? Colors.red : Colors.black} />);
                 } else if (route.name === ScenesKey.ORDERS_HISTORY) {
-                    labelFocus = isFocused ? '•' : '',
-                    icon = (
-                        <Icon
-                            type={VectorIconName.FontAweSome}
-                            name="history"
-                            size={25}
-                            color={isFocused ? Colors.red : Colors.black}
-                        />
-                    );
+                    (labelFocus = isFocused ? '•' : ''),
+                        (icon = <Icon type={VectorIconName.FontAweSome} name="history" size={25} color={isFocused ? Colors.red : Colors.black} />);
                 } else if (route.name === ScenesKey.PROFILE) {
-                    labelFocus = isFocused ? '•' : '',
-                    icon = (
-                        <Icon
-                            type={VectorIconName.FontAweSome}
-                            name="user"
-                            size={25}
-                            color={isFocused ? Colors.red : Colors.black}
-                        />
-                    );
+                    (labelFocus = isFocused ? '•' : ''),
+                        (icon = <Icon type={VectorIconName.FontAweSome} name="user" size={25} color={isFocused ? Colors.red : Colors.black} />);
                 }
                 return <Tab labelFocus={labelFocus} onPress={onPress} key={index.toString()} isFocused={isFocused} icon={icon} />;
             })}

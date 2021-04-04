@@ -34,5 +34,5 @@ export default StyleSheet.create({
     },
     txtVerify: {
         color: Colors.white,
-    }
+    },
 });

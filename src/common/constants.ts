@@ -13,6 +13,7 @@ export enum ScenesKey {
     FILM_DETAIL = 'FilmDetail',
     BOOKING_TICKETS = 'BookingTickets',
     SPECIAL_OFFERS = 'SpecialOffers',
+    PROMO_CODE_DETAIL = 'PromoCodeDetail',
     ORDERS_HISTORY = 'OrdersHistory',
     PROFILE = 'Profile',
     EDIT_INFORMATION = 'EditInformation',
@@ -22,6 +23,7 @@ export enum ScenesKey {
     SET_NEW_PASSWORD = 'SetNewPassword',
     CHOOSE_SEATS = 'ChooseSeats',
     PAYMENT = 'Payment',
+    VN_PAY = 'VNPay',
     SCREEN_1 = 'Screen 1',
     SCREEN_2 = 'Screen 2',
     TEST = 'TEST',
@@ -42,6 +44,7 @@ export const FONTS = {
 export const ImageUrls = {
     BACKGROUND: require('@common/assets/images/startBackground.png'),
     LOGO: require('@common/assets/images/logo.png'),
+    VN_PAY: require('@common/assets/images/vnpay.png'),
     VISA: require('@common/assets/images/visa.png'),
     MASTER_CARD: require('@common/assets/images/masterCard.png'),
     PAY_PAL: require('@common/assets/images/paypal.png'),
@@ -57,4 +60,9 @@ export const VERIFY_ACCOUNT_TYPE_SCREEN = {
 export const FILM_DETAIL_TYPE_SCREEN = {
     CAN_BOOK_TICKET: 'CanBookTicket',
     CAN_NOT_BOOK_TICKET: 'CanNotBookTicket',
+};
+
+export const listFilmsDefault = {
+    data: [{ id: 0, fileName: '', imageUrl: 'img', description: '', author: '', actors: '', releaseDate: '', duration: '' }],
+    message: '',
 };

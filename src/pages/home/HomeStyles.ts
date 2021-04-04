@@ -1,21 +1,21 @@
-import { Colors, FontSize } from "@common/assets/theme/variables";
-import { FONTS } from "@common/constants";
-import { StyleSheet } from "react-native";
+import { Colors, FontSize } from '@common/assets/theme/variables';
+import { FONTS } from '@common/constants';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     txtLeftTabBar: {
         fontSize: FontSize.xLarge,
         fontFamily: FONTS.SFProText.BOLD,
     },
-    imageView: { width: 60, height: 60, resizeMode: "cover", borderRadius: 30 },
+    imageView: { width: 60, height: 60, resizeMode: 'cover', borderRadius: 30 },
     avatar: {
         backgroundColor: Colors.whiteSmoke,
         borderRadius: 30,
     },
-    iconPerson: { justifyContent: "center", padding: 7 },
+    iconPerson: { justifyContent: 'center', padding: 7 },
     iconCamera: {
-        justifyContent: "center",
-        position: "absolute",
+        justifyContent: 'center',
+        position: 'absolute',
         bottom: 0,
         left: 0,
         backgroundColor: Colors.gray,
@@ -27,8 +27,8 @@ export default StyleSheet.create({
         color: Colors.red,
         fontFamily: FONTS.SFProText.BOLD,
         fontSize: FontSize.xxLarge,
-        textDecorationLine: "underline",
+        textDecorationLine: 'underline',
         marginBottom: 15,
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
     },
 });

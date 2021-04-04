@@ -1,7 +1,7 @@
-import { Colors, FontSize } from "@common/assets/theme/variables";
-import { StyleSheet } from "react-native";
-import { SCREEN_WIDTH } from "@common/assets/theme/variables";
-import { FONTS } from "@common/constants";
+import { Colors, FontSize } from '@common/assets/theme/variables';
+import { StyleSheet } from 'react-native';
+import { SCREEN_WIDTH } from '@common/assets/theme/variables';
+import { FONTS } from '@common/constants';
 
 export const ITEM_WIDTH = Math.round(SCREEN_WIDTH * 0.6);
 
@@ -13,9 +13,9 @@ export default StyleSheet.create({
         borderRadius: 10,
     },
     leftHeader: {
-        flexDirection: "row",
+        flexDirection: 'row',
         borderRadius: 20,
-        alignItems: "center",
+        alignItems: 'center',
     },
     txtBack: { paddingLeft: 10, fontSize: FontSize.large },
     image: {
@@ -26,21 +26,21 @@ export default StyleSheet.create({
     },
     details: { paddingLeft: 5, marginHorizontal: 10, paddingVertical: 10 },
     topDescriptions: {
-        flexDirection: "row",
-        justifyContent: "space-between",
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         marginBottom: 10,
     },
     filmName: {
         fontFamily: FONTS.SFProText.BOLD,
         fontSize: FontSize.large,
-        alignSelf: "center",
+        alignSelf: 'center',
     },
     bookingTicket: {
-        flexDirection: "row",
+        flexDirection: 'row',
         backgroundColor: Colors.red,
         padding: 10,
         borderRadius: 20,
-        alignItems: "center",
+        alignItems: 'center',
     },
     txtTicket: { color: Colors.white, paddingRight: 5 },
     time: { fontFamily: FONTS.SFProText.BOLD },
@@ -50,11 +50,11 @@ export default StyleSheet.create({
         borderWidth: 1,
         width: 80,
         borderRadius: 10,
-        flexDirection: "row",
-        justifyContent: "space-evenly",
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
         paddingVertical: 5,
         marginTop: 10,
     },
     txtDetail: { color: Colors.red },
-    fieldInfo: { flexDirection: "row", marginVertical: 10, paddingLeft: 16 },
+    fieldInfo: { flexDirection: 'row', marginVertical: 10, paddingLeft: 16 },
 });

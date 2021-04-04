@@ -1,22 +1,15 @@
-import React, { useState } from "react";
-import {
-    View,
-    Text,
-    Image,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-} from "react-native";
-import { Formik, FormikProps } from "formik";
-import TextInputComponent, { InputType } from "@components/TextInput/TextInput";
-import * as Yup from "yup";
-import Button from "@components/Button/Button";
-import styles from "./SignUpStyles";
-import { goToVerifyAccount } from "@pages/auth/verify-account/VerifyAccountNavigation";
-import { ImageUrls, VERIFY_ACCOUNT_TYPE_SCREEN } from "@common/constants";
-import { Colors } from "@common/assets/theme/variables";
-import common from "@common/assets/theme/common";
-import api from "@common/api";
+import React, { useState } from 'react';
+import { View, Text, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { Formik, FormikProps } from 'formik';
+import TextInputComponent, { InputType } from '@components/TextInput/TextInput';
+import * as Yup from 'yup';
+import Button from '@components/Button/Button';
+import styles from './SignUpStyles';
+import { goToVerifyAccount } from '@pages/auth/verify-account/VerifyAccountNavigation';
+import { ImageUrls, VERIFY_ACCOUNT_TYPE_SCREEN } from '@common/constants';
+import { Colors } from '@common/assets/theme/variables';
+import common from '@common/assets/theme/common';
+import api from '@common/api';
 
 interface SignUpProps {
     navigation: any;
@@ -27,7 +20,7 @@ export const SignUp = ({ navigation }: SignUpProps): React.ReactElement => {
     const [loading, setLoading] = useState(false);
 
     const handleInputFocus = () => {
-        console.log("focus");
+        console.log('focus');
     };
 
     const getRequestSubmit = async (values: any) => {
@@ -53,33 +46,30 @@ export const SignUp = ({ navigation }: SignUpProps): React.ReactElement => {
 
     const getInitialValues = () => {
         return {
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            password: "",
-            confirmPassword: "",
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            password: '',
+            confirmPassword: '',
         };
     };
 
     const getValidationSchema = () => {
         return Yup.object().shape({
-            firstName: Yup.string().required("FirstName required"),
-            lastName: Yup.string().required("LastName required"),
-            email: Yup.string().email().required("This field is required"),
-            phone: Yup.string().required("This field is required"),
-            password: Yup.string().required("Password required"),
+            firstName: Yup.string().required('FirstName required'),
+            lastName: Yup.string().required('LastName required'),
+            email: Yup.string().email().required('This field is required'),
+            phone: Yup.string().required('This field is required'),
+            password: Yup.string().required('Password required'),
             confirmPassword: Yup.string()
-                .oneOf([Yup.ref("password")], "Passwords does not match")
-                .required("This field is required"),
+                .oneOf([Yup.ref('password')], 'Passwords does not match')
+                .required('This field is required'),
         });
     };
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={{ flexGrow: 1 }}
-        >
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flexGrow: 1 }}>
             <View style={styles.logoField}>
                 <Image source={ImageUrls.LOGO} style={styles.logo} />
             </View>
@@ -92,182 +82,107 @@ export const SignUp = ({ navigation }: SignUpProps): React.ReactElement => {
                         onSubmit={(values) => getRequestSubmit(values)}
                         validationSchema={getValidationSchema()}
                     >
-                        {({
-                            values,
-                            errors,
-                            touched,
-                            handleChange,
-                            handleBlur,
-                            handleSubmit,
-                        }: FormikProps<any>) => {
+                        {({ values, errors, touched, handleChange, handleBlur, handleSubmit }: FormikProps<any>) => {
                             return (
                                 <>
-                                    <View
-                                        style={[styles.section, common.shadow]}
-                                    >
+                                    <View style={[styles.section, common.shadow]}>
                                         <View style={styles.inputBox}>
                                             <TextInputComponent
                                                 value={values.firstName}
-                                                handleChange={handleChange(
-                                                    "firstName"
-                                                )}
+                                                handleChange={handleChange('firstName')}
                                                 error={errors.firstName}
                                                 touched={touched.firstName}
                                                 onFocus={handleInputFocus}
-                                                inputType={
-                                                    InputType.WITH_VALIDATION
-                                                }
-                                                handleBlur={handleBlur(
-                                                    "firstName"
-                                                )}
+                                                inputType={InputType.WITH_VALIDATION}
+                                                handleBlur={handleBlur('firstName')}
                                                 placeholder="First Name"
-                                                placeholderTextColor={
-                                                    Colors.veryBrightGrey
-                                                }
+                                                placeholderTextColor={Colors.veryBrightGrey}
                                                 style={styles.inputTextSignUp}
-                                                errorStyle={
-                                                    styles.inputErrorText
-                                                }
+                                                errorStyle={styles.inputErrorText}
                                             />
                                         </View>
                                         <View style={styles.inputBox}>
                                             <TextInputComponent
                                                 value={values.lastName}
-                                                handleChange={handleChange(
-                                                    "lastName"
-                                                )}
+                                                handleChange={handleChange('lastName')}
                                                 error={errors.lastName}
                                                 touched={touched.lastName}
                                                 onFocus={handleInputFocus}
-                                                inputType={
-                                                    InputType.WITH_VALIDATION
-                                                }
-                                                handleBlur={handleBlur(
-                                                    "lastName"
-                                                )}
+                                                inputType={InputType.WITH_VALIDATION}
+                                                handleBlur={handleBlur('lastName')}
                                                 placeholder="Last Name"
-                                                placeholderTextColor={
-                                                    Colors.veryBrightGrey
-                                                }
+                                                placeholderTextColor={Colors.veryBrightGrey}
                                                 style={styles.inputTextSignUp}
-                                                errorStyle={
-                                                    styles.inputErrorText
-                                                }
+                                                errorStyle={styles.inputErrorText}
                                             />
                                         </View>
                                         <View style={styles.inputBox}>
                                             <TextInputComponent
                                                 value={values.email}
-                                                handleChange={handleChange(
-                                                    "email"
-                                                )}
+                                                handleChange={handleChange('email')}
                                                 error={errors.email}
                                                 touched={touched.email}
                                                 onFocus={handleInputFocus}
-                                                inputType={
-                                                    InputType.WITH_VALIDATION
-                                                }
-                                                handleBlur={handleBlur("email")}
+                                                inputType={InputType.WITH_VALIDATION}
+                                                handleBlur={handleBlur('email')}
                                                 placeholder="email"
-                                                placeholderTextColor={
-                                                    Colors.veryBrightGrey
-                                                }
+                                                placeholderTextColor={Colors.veryBrightGrey}
                                                 style={styles.inputTextSignUp}
-                                                errorStyle={
-                                                    styles.inputErrorText
-                                                }
+                                                errorStyle={styles.inputErrorText}
                                             />
                                         </View>
                                         <View style={styles.inputBox}>
                                             <TextInputComponent
                                                 value={values.phone}
-                                                handleChange={handleChange(
-                                                    "phone"
-                                                )}
+                                                handleChange={handleChange('phone')}
                                                 error={errors.phone}
                                                 touched={touched.phone}
                                                 onFocus={handleInputFocus}
-                                                inputType={
-                                                    InputType.WITH_VALIDATION
-                                                }
-                                                handleBlur={handleBlur("phone")}
+                                                inputType={InputType.WITH_VALIDATION}
+                                                handleBlur={handleBlur('phone')}
                                                 placeholder="phone"
-                                                placeholderTextColor={
-                                                    Colors.veryBrightGrey
-                                                }
+                                                placeholderTextColor={Colors.veryBrightGrey}
                                                 style={styles.inputTextSignUp}
-                                                errorStyle={
-                                                    styles.inputErrorText
-                                                }
+                                                errorStyle={styles.inputErrorText}
                                             />
                                         </View>
                                         <View style={styles.inputBox}>
                                             <TextInputComponent
                                                 value={values.password}
-                                                handleChange={handleChange(
-                                                    "password"
-                                                )}
+                                                handleChange={handleChange('password')}
                                                 error={errors.password}
                                                 touched={touched.password}
                                                 onFocus={handleInputFocus}
-                                                inputType={
-                                                    InputType.WITH_VALIDATION
-                                                }
-                                                handleBlur={handleBlur(
-                                                    "password"
-                                                )}
+                                                inputType={InputType.WITH_VALIDATION}
+                                                handleBlur={handleBlur('password')}
                                                 secureText={true}
                                                 isSecureText={hidePassword}
                                                 placeholder="Password"
-                                                placeholderTextColor={
-                                                    Colors.veryBrightGrey
-                                                }
+                                                placeholderTextColor={Colors.veryBrightGrey}
                                                 style={styles.inputTextSignUp}
-                                                errorStyle={
-                                                    styles.inputErrorText
-                                                }
+                                                errorStyle={styles.inputErrorText}
                                             />
                                         </View>
                                         <View style={styles.inputBox}>
                                             <TextInputComponent
                                                 value={values.confirmPassword}
-                                                handleChange={handleChange(
-                                                    "confirmPassword"
-                                                )}
+                                                handleChange={handleChange('confirmPassword')}
                                                 error={errors.confirmPassword}
-                                                touched={
-                                                    touched.confirmPassword
-                                                }
+                                                touched={touched.confirmPassword}
                                                 onFocus={handleInputFocus}
-                                                inputType={
-                                                    InputType.WITH_VALIDATION
-                                                }
-                                                handleBlur={handleBlur(
-                                                    "confirmPassword"
-                                                )}
+                                                inputType={InputType.WITH_VALIDATION}
+                                                handleBlur={handleBlur('confirmPassword')}
                                                 secureText={true}
                                                 isSecureText={hidePassword}
                                                 placeholder="Confirm Password"
-                                                placeholderTextColor={
-                                                    Colors.veryBrightGrey
-                                                }
+                                                placeholderTextColor={Colors.veryBrightGrey}
                                                 style={styles.inputTextSignUp}
-                                                errorStyle={
-                                                    styles.inputErrorText
-                                                }
+                                                errorStyle={styles.inputErrorText}
                                             />
                                         </View>
                                     </View>
-                                    <Button
-                                        onPress={() => handleSubmit()}
-                                        loading={loading}
-                                        buttonContainerStyle={
-                                            styles.buttonSignIn
-                                        }
-                                    >
-                                        <Text style={styles.txtSignUp}>
-                                            Sign up
-                                        </Text>
+                                    <Button onPress={() => handleSubmit()} loading={loading} buttonContainerStyle={styles.buttonSignIn}>
+                                        <Text style={styles.txtSignUp}>Sign up</Text>
                                     </Button>
                                 </>
                             );

@@ -8,7 +8,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 16,
         paddingBottom: 5,
-        backgroundColor: Colors.whiteMilk
+        backgroundColor: Colors.whiteMilk,
     },
     leftTabBar: {
         minWidth: 24,

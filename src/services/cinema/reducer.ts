@@ -1,5 +1,5 @@
-import { ReducerFactory } from "redux-actions-ts-reducer";
-import { checkout, getSelectedSeats, resetCheckout } from "./actions";
+import { ReducerFactory } from 'redux-actions-ts-reducer';
+import { checkout, getSelectedSeats, resetCheckout } from './actions';
 
 export interface DefaultState {
     totalSeats: number;
@@ -26,7 +26,7 @@ const reducer = new ReducerFactory(new State())
             return {
                 ...state,
                 totalSeats: action.payload.seats.length,
-                seats: action.payload.seats
+                seats: action.payload.seats,
             };
         }
     )
@@ -35,7 +35,7 @@ const reducer = new ReducerFactory(new State())
         (state: any): State => {
             return {
                 ...state,
-                price: state.totalSeats * 50,
+                price: state.totalSeats * 75000,
             };
         }
     )

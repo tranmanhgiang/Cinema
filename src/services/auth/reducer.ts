@@ -1,12 +1,7 @@
-import { ReducerFactory } from "redux-actions-ts-reducer";
-import AsyncStorage from "@react-native-community/async-storage";
-import {
-    loginSuccessAction,
-    logoutAction,
-    verificationCodeSuccessAction,
-    signUpSuccessAction,
-} from "./actions";
-import { PersistConfig, persistReducer } from "redux-persist";
+import { ReducerFactory } from 'redux-actions-ts-reducer';
+import AsyncStorage from '@react-native-community/async-storage';
+import { loginSuccessAction, logoutAction, verificationCodeSuccessAction, signUpSuccessAction } from './actions';
+import { PersistConfig, persistReducer } from 'redux-persist';
 
 export interface AuthStateProps {
     username: string;
@@ -14,8 +9,8 @@ export interface AuthStateProps {
 }
 
 const defaultState: AuthStateProps = {
-    username: "",
-    token: "",
+    username: '',
+    token: '',
 };
 
 class State {
@@ -63,8 +58,8 @@ const reducer = new ReducerFactory(new State())
 
 const persistConfig: PersistConfig<State> = {
     storage: AsyncStorage,
-    key: "auth",
-    whitelist: ["token"],
+    key: 'auth',
+    whitelist: ['token'],
 };
 
 export default persistReducer(persistConfig, reducer);

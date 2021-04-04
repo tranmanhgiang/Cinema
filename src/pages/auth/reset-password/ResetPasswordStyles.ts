@@ -6,7 +6,7 @@ export default StyleSheet.create({
     background: {
         flex: 1,
         resizeMode: 'cover',
-        backgroundColor: Colors.whiteSmoke
+        backgroundColor: Colors.whiteSmoke,
     },
     text: {
         color: Colors.red,
@@ -28,7 +28,7 @@ export default StyleSheet.create({
         marginTop: 10,
     },
     txtSubmit: {
-       fontFamily: FONTS.SFProText.BOLD,
+        fontFamily: FONTS.SFProText.BOLD,
         color: Colors.white,
         fontSize: FontSize.large,
     },
@@ -47,5 +47,5 @@ export default StyleSheet.create({
     inputErrorText: {
         fontFamily: FONTS.SFProText.REGULAR,
         fontSize: FontSize.normal,
-    }
+    },
 });

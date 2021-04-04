@@ -1,6 +1,6 @@
-import { Colors, FontSize, SCREEN_WIDTH } from "@common/assets/theme/variables";
-import { FONTS } from "@common/constants";
-import { StyleSheet } from "react-native";
+import { Colors, FontSize, SCREEN_WIDTH } from '@common/assets/theme/variables';
+import { FONTS } from '@common/constants';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     seat: {
@@ -31,7 +31,7 @@ export default StyleSheet.create({
     room: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     note: {
         flexDirection: 'row',
@@ -39,5 +39,5 @@ export default StyleSheet.create({
         position: 'absolute',
         top: 40,
     },
-    noteItem: { flexDirection: "row", alignItems: "center", flex: 1, justifyContent: 'center' },
+    noteItem: { flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'center' },
 });

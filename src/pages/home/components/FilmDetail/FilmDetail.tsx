@@ -1,12 +1,12 @@
-import { Colors } from "@common/assets/theme/variables";
-import React from "react";
-import { Image, View, Text, TouchableOpacity, ScrollView } from "react-native";
-import styles from "./FilmDetailStyles";
-import common from "@common/assets/theme/common";
-import Icon, { VectorIconName } from "@components/VectorIcon/VectorIcon";
-import Header from "@components/AppHeader/Header";
-import { useNavigation } from "@react-navigation/native";
-import { FILM_DETAIL_TYPE_SCREEN } from "@common/constants";
+import { Colors } from '@common/assets/theme/variables';
+import React from 'react';
+import { Image, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import styles from './FilmDetailStyles';
+import common from '@common/assets/theme/common';
+import Icon, { VectorIconName } from '@components/VectorIcon/VectorIcon';
+import Header from '@components/AppHeader/Header';
+import { useNavigation } from '@react-navigation/native';
+import { FILM_DETAIL_TYPE_SCREEN } from '@common/constants';
 
 export const FilmDetail = ({ route }: any) => {
     const { film, type } = route.params;
@@ -14,17 +14,9 @@ export const FilmDetail = ({ route }: any) => {
 
     const renderLeftTabBar = () => {
         return (
-            <TouchableOpacity
-                style={styles.leftHeader}
-                onPress={() => navigation.goBack()}
-            >
-                <Icon
-                    type={VectorIconName.FontAweSome}
-                    name="arrow-left"
-                    size={18}
-                    color={Colors.black}
-                />
-                <Text style={styles.txtBack}>Back</Text>
+            <TouchableOpacity style={styles.leftHeader} onPress={() => navigation.goBack()}>
+                <Icon type={VectorIconName.FontAweSome} name="arrow-left" size={18} color={Colors.black} />
+                <Text style={styles.txtBack}>Trở về</Text>
             </TouchableOpacity>
         );
     };
@@ -35,55 +27,45 @@ export const FilmDetail = ({ route }: any) => {
             <ScrollView>
                 <View style={[styles.itemContainer, common.shadow]}>
                     <View>
-                        <Image
-                            source={{ uri: film.imgUrl }}
-                            style={styles.image}
-                        />
+                        <Image source={{ uri: film.imageUrl }} style={styles.image} />
                     </View>
                     <View style={styles.details}>
                         <View style={styles.topDescriptions}>
-                            <Text style={styles.filmName}>{film.name}</Text>
+                            <Text style={styles.filmName}>{film.filmName}</Text>
                             {type === FILM_DETAIL_TYPE_SCREEN.CAN_BOOK_TICKET && (
                                 <TouchableOpacity style={styles.bookingTicket}>
-                                    <Text style={styles.txtTicket}>Ticket</Text>
-                                    <Icon
-                                        type={VectorIconName.FontAweSome}
-                                        name="long-arrow-right"
-                                        size={18}
-                                        color={Colors.white}
-                                    />
+                                    <Text style={styles.txtTicket}>Đặt vé</Text>
+                                    <Icon type={VectorIconName.FontAweSome} name="long-arrow-right" size={18} color={Colors.white} />
                                 </TouchableOpacity>
                             )}
                         </View>
-                        <Text style={styles.descriptions}>{film.body}</Text>
+                        <Text style={styles.descriptions}>{film.description}</Text>
                     </View>
                 </View>
                 <View style={[styles.itemContainer, common.shadow]}>
                     <View style={styles.fieldInfo}>
                         <Text>
-                            <Text style={styles.time}>Duration:</Text> 2h30m
+                            <Text style={styles.time}>Thời lượng:</Text> {film.duration}
                         </Text>
                     </View>
                     <View style={styles.fieldInfo}>
                         <Text>
-                            <Text style={styles.time}>Release date:</Text>{" "}
-                            24/04/2021
+                            <Text style={styles.time}>Khở chiếu:</Text> {film.releaseDate}
                         </Text>
                     </View>
                     <View style={styles.fieldInfo}>
                         <Text>
-                            <Text style={styles.time}>Category:</Text> abc
+                            <Text style={styles.time}>Thể loại:</Text> abc
                         </Text>
                     </View>
                     <View style={styles.fieldInfo}>
                         <Text>
-                            <Text style={styles.time}>Author:</Text> TMG
+                            <Text style={styles.time}>Tác giả:</Text> {film.author}
                         </Text>
                     </View>
                     <View style={styles.fieldInfo}>
                         <Text>
-                            <Text style={styles.time}>Actors:</Text> NguyenVanA,
-                            NguyenVanB, NguyenVanC
+                            <Text style={styles.time}>Diễn viên:</Text> {film.actors}
                         </Text>
                     </View>
                 </View>

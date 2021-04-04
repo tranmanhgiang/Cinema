@@ -1,13 +1,13 @@
-import { Colors, FontSize } from "@common/assets/theme/variables";
-import { StyleSheet } from "react-native";
-import { SCREEN_WIDTH } from "@common/assets/theme/variables";
-import { FONTS } from "@common/constants";
+import { Colors, FontSize } from '@common/assets/theme/variables';
+import { StyleSheet } from 'react-native';
+import { SCREEN_WIDTH } from '@common/assets/theme/variables';
+import { FONTS } from '@common/constants';
 
 export const ITEM_WIDTH = Math.round(SCREEN_WIDTH * 0.6);
 
 export default StyleSheet.create({
     itemContainer: {
-        flexDirection: "row",
+        flexDirection: 'row',
         backgroundColor: Colors.white,
         marginVertical: 10,
         marginHorizontal: 16,
@@ -28,8 +28,8 @@ export default StyleSheet.create({
         borderWidth: 1,
         width: 80,
         borderRadius: 10,
-        flexDirection: "row",
-        justifyContent: "space-evenly",
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
         paddingVertical: 5,
         marginTop: 10,
     },

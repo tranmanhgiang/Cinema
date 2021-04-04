@@ -1,7 +1,7 @@
-import { Colors, FontSize } from "@common/assets/theme/variables";
-import { StyleSheet } from "react-native";
-import { SCREEN_WIDTH } from "@common/assets/theme/variables";
-import { FONTS } from "@common/constants";
+import { Colors, FontSize } from '@common/assets/theme/variables';
+import { StyleSheet } from 'react-native';
+import { SCREEN_WIDTH } from '@common/assets/theme/variables';
+import { FONTS } from '@common/constants';
 
 export const ITEM_WIDTH = Math.round(SCREEN_WIDTH * 0.6);
 
@@ -23,7 +23,7 @@ export default StyleSheet.create({
         width: ITEM_WIDTH,
         height: 300,
         borderRadius: 10,
-        resizeMode: "cover",
+        resizeMode: 'cover',
     },
-    filmName: { textAlign: "center", fontSize: FontSize.xLarge, fontFamily: FONTS.SFProText.BOLD },
+    filmName: { textAlign: 'center', fontSize: FontSize.xLarge, fontFamily: FONTS.SFProText.BOLD },
 });

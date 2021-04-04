@@ -1,37 +1,32 @@
-import { getSelectedSeats } from "@services/cinema/actions";
-import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
-import { useDispatch } from "react-redux";
-import { Seat } from "./Seat";
-import styles from "./SeatStyles";
+import { SeatStatus } from '@common/types';
+import { getSelectedSeats } from '@services/cinema/actions';
+import React, { useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { Seat } from './Seat';
+import styles from './SeatStyles';
 
 interface SeatProps {
+    seatArr: SeatStatus[];
     isVisibleBuyTicket: boolean;
     setIsVisibleBuyTicket: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Seats = ({ isVisibleBuyTicket, setIsVisibleBuyTicket }: SeatProps) => {
+export const Seats = ({ seatArr, isVisibleBuyTicket, setIsVisibleBuyTicket }: SeatProps) => {
     const dispatch = useDispatch();
     const [seatSelected, setSeatSelected] = useState<number[]>([]);
 
-    const renderRoom = () => {
-        const seatArr: number[] = [];
-        for (var i = 1; i <= 30; i++) {
-            seatArr.push(i);
-        }
-        return seatArr;
-    };
-    const seats = renderRoom();
-
-    const handleSelect = (labelSeat: number) => {
-        const seatIndex = seatSelected.indexOf(labelSeat);
-        const newSeatSelected = [...seatSelected];
-        if (seatIndex !== -1) {
-            newSeatSelected.splice(seatIndex, 1);
-            setSeatSelected(newSeatSelected);
-        } else {
-            newSeatSelected.push(labelSeat);
-            setSeatSelected(newSeatSelected);
+    const handleSelect = (seat: SeatStatus) => {
+        if (!seat.isSelected) {
+            const seatIndex = seatSelected.indexOf(seat.index);
+            const newSeatSelected = [...seatSelected];
+            if (seatIndex !== -1) {
+                newSeatSelected.splice(seatIndex, 1);
+                setSeatSelected(newSeatSelected);
+            } else {
+                newSeatSelected.push(seat.index);
+                setSeatSelected(newSeatSelected);
+            }
         }
     };
 
@@ -47,13 +42,13 @@ export const Seats = ({ isVisibleBuyTicket, setIsVisibleBuyTicket }: SeatProps) 
     return (
         <>
             <View style={styles.room}>
-                {seats.map((seat, index) => {
+                {seatArr.map((seat, index) => {
                     return (
                         <Seat
                             key={index}
-                            labelSeat={seat}
+                            seat={seat}
                             handleSelect={handleSelect}
-                            isSelected={seatSelected.indexOf(seat) !== -1}
+                            isSelect={seatSelected.indexOf(seat.index) !== -1 || seat.isSelected}
                         />
                     );
                 })}
@@ -65,9 +60,7 @@ export const Seats = ({ isVisibleBuyTicket, setIsVisibleBuyTicket }: SeatProps) 
                 </View>
                 <View style={styles.noteItem}>
                     <Text style={styles.seatSelected} />
-                    <Text style={{ color: "red", alignItems: "center" }}>
-                        selected
-                    </Text>
+                    <Text style={{ color: 'red', alignItems: 'center' }}>selected</Text>
                 </View>
             </View>
         </>

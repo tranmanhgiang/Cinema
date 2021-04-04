@@ -43,7 +43,7 @@ export default StyleSheet.create({
         fontSize: FontSize.large,
     },
     section: { flex: 1, marginBottom: 30, backgroundColor: Colors.whiteMilk, marginHorizontal: 32, paddingBottom: 20, borderRadius: 8 },
-    txtSection: { color: Colors.white, paddingLeft: 32, fontSize: FontSize.large, fontFamily: FONTS.SFProText.BOLD, },
+    txtSection: { color: Colors.white, paddingLeft: 32, fontSize: FontSize.large, fontFamily: FONTS.SFProText.BOLD },
     inputBox: { paddingVertical: 2, marginHorizontal: 32 },
     inputTextSignUp: {
         flex: 1,

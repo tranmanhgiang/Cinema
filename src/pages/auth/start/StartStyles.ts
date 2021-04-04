@@ -22,7 +22,7 @@ export default StyleSheet.create({
     },
     logoField: { flex: 3, justifyContent: 'flex-start', alignItems: 'center', marginTop: 20 },
     imageField: { flex: 2, justifyContent: 'flex-end', alignItems: 'center' },
-    phone_number: { flex: 1, },
+    phone_number: { flex: 1 },
     logo: {
         width: 40,
         height: 45,
