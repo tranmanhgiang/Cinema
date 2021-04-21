@@ -1,4 +1,5 @@
-import { all, takeLatest } from 'redux-saga/effects';
+import { getCurrentUser } from '@services/user/actions';
+import { all, put, takeLatest } from 'redux-saga/effects';
 
 import { loginSuccessAction, logoutAction } from './actions';
 
@@ -11,6 +12,7 @@ function* loginWatcher() {
 
 function* logoutWatcher() {
     try {
+        yield put(getCurrentUser());
     } catch (error) {
         console.log('error', error);
     }

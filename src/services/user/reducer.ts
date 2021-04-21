@@ -1,17 +1,25 @@
 import { ReducerFactory } from 'redux-actions-ts-reducer';
 
-import { getCurrentUser, getUserSettings } from './actions';
+import { getCurrentUser, getUserSettings, getCurrentUserSuccess } from './actions';
 
 export interface DefaultState {
-    username: string;
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: number;
 }
 
 const defaultState: DefaultState = {
-    username: 'No Name',
+    id: 0,
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: 0,
 };
 
 class State {
-    defaultState: DefaultState = defaultState;
+    userProfile: DefaultState = defaultState;
 }
 
 const reducer = new ReducerFactory(new State())
@@ -20,7 +28,16 @@ const reducer = new ReducerFactory(new State())
         (state: any): State => {
             return {
                 ...state,
-                defaultState: { username: '' },
+                userProfile: defaultState,
+            };
+        }
+    )
+    .addReducer(
+        getCurrentUserSuccess,
+        (state: any, action: any): State => {
+            return {
+                ...state,
+                userProfile: action.payload,
             };
         }
     )
@@ -38,7 +55,7 @@ const reducer = new ReducerFactory(new State())
         (state: any, action: any): State => {
             return {
                 ...state,
-                defaultState: { username: '' },
+                userProfile: defaultState,
             };
         }
     )

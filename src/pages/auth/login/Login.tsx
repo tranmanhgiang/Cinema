@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import Button from '@components/Button/Button';
 import styles from './LoginStyles';
 import { Colors } from '@common/assets/theme/variables';
-import { ImageUrls, ScenesKey } from '@common/constants';
+import { ImageUrls, ScenesKey, TOKEN_STORAGE_KEY } from '@common/constants';
 import { goToDashboard } from '@pages/auth/verify-account/VerifyAccountNavigation';
 import api from '@common/api';
 import { NavigationProps } from '@common/types';
@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { getErrorMessage } from '@common/utils/detectErrorApi';
 import Toast from 'react-native-root-toast';
 import { OptionToast } from '@common/assets/theme/common';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export interface FormLogin {
     email: string;
@@ -37,10 +38,16 @@ export const Login = ({ navigation }: LoginProps): React.ReactElement => {
     const getRequestSubmit = async (values: FormLogin) => {
         try {
             setLoading(true);
-            await api.auth.login({
+            const loginRes = await api.auth.login({
                 email: values.email,
                 password: values.password,
             });
+            await AsyncStorage.setItem(
+                TOKEN_STORAGE_KEY,
+                JSON.stringify({
+                    Token: loginRes.Token,
+                })
+            );
             dispatch(loginSuccessAction({ username: values.email }));
             setLoading(false);
             goToDashboard(navigation);

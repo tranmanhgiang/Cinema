@@ -60,6 +60,7 @@ const HomeTab = () => {
             <Stack.Screen name={ScenesKey.CHOOSE_SEATS} component={ChooseSeats} />
             <Stack.Screen name={ScenesKey.PAYMENT} component={Payment} />
             <Stack.Screen name={ScenesKey.VN_PAY} component={VNPay} />
+            <Stack.Screen name={ScenesKey.LOGIN} component={Login} />
         </Stack.Navigator>
     );
 };
@@ -107,7 +108,7 @@ const OrdersHistoryTab = () => {
 
 const App = () => {
     return (
-        <Tab.Navigator initialRouteName={ScenesKey.SPECIAL_OFFERS} tabBar={(props) => <TabBar {...props} />}>
+        <Tab.Navigator initialRouteName={ScenesKey.HOME} tabBar={(props) => <TabBar {...props} />}>
             <Tab.Screen name={ScenesKey.HOME} component={HomeTab} />
             <Tab.Screen name={ScenesKey.SPECIAL_OFFERS} component={SpecialOffersTab} />
             <Tab.Screen name={ScenesKey.ORDERS_HISTORY} component={OrdersHistoryTab} />

@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import Header from '@components/AppHeader/Header';
 import styles from './OrdersHistoryStyles';
 import common from '@common/assets/theme/common';
 import Modal from 'react-native-modal';
 import { TicketInfo } from './components/TicketInfo';
+import { getTokenStorage } from '@common/utils/storage';
+import { useNavigation } from '@react-navigation/native';
+import { ScenesKey } from '@common/constants';
+import api from '@common/api';
+import dayjs from 'dayjs';
 
 const DATA_FIXED = [
     {
@@ -31,8 +36,24 @@ export interface FilmItemProps {
 }
 
 export const OrdersHistory = () => {
+    const navigation = useNavigation();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [ticketItem, setTicketItem] = useState<any>();
+    const [orderInfo, setOrderInfo] = useState<any>();
+
+    const getTokenFromStorage = async () => {
+        const tokenStorage = await getTokenStorage();
+        if (tokenStorage !== null) {
+            const res = await api.user.getHistoryBooked();
+            setOrderInfo(res.data);
+        } else {
+            navigation.navigate(ScenesKey.LOGIN);
+        }
+    };
+
+    useEffect(() => {
+        getTokenFromStorage();
+    }, []);
 
     const renderContentTabBar = () => <Text style={styles.title}>Lịch sử</Text>;
     const onOk = () => {
@@ -41,7 +62,7 @@ export const OrdersHistory = () => {
 
     const onSelectedItem = (id: number) => {
         setIsModalVisible(true);
-        const dataItem = DATA_FIXED.find((item) => item.id === id);
+        const dataItem = orderInfo.find((item: any) => item.id === id);
         setTicketItem(dataItem);
     };
 
@@ -54,28 +75,31 @@ export const OrdersHistory = () => {
                 }}
             >
                 <View key={index}>
-                    <Image source={{ uri: item.imgUrl }} style={styles.image} />
+                    <Image source={{ uri: item.imageUrl }} style={styles.image} />
                 </View>
                 <View style={styles.details}>
-                    <Text style={item.id === 1 ? styles.exceedDate : styles.notExceedDate}>{item.id === 1 ? 'Đã sử dụng' : 'Chưa sử dụng'}</Text>
-                    <Text style={styles.filmName}>{item.name}</Text>
+                    <Text style={dayjs(new Date()).valueOf() - dayjs(item.date).valueOf() > 0 ? styles.exceedDate : styles.notExceedDate}>
+                        {dayjs(new Date()).valueOf() - dayjs(item.date).valueOf() > 0 ? 'Đã sử dụng' : 'Chưa sử dụng'}
+                    </Text>
+                    <Text style={styles.filmName}>{item.filmName}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <Text>
-                            <Text style={styles.time}>Ngày:</Text> 03 tháng 4, 2021
+                            <Text style={styles.time}>Ngày:</Text> {item.date}
                         </Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                         <Text>
-                            <Text style={styles.time}>Giờ chiếu:</Text> 2:30 PM - 4:30 PM
+                            <Text style={styles.time}>Giờ chiếu:</Text> {dayjs(item.time).format('HH:mm A')} -{' '}
+                            {dayjs(item.time + item.duration).format('HH:mm A')}
                         </Text>
                     </View>
                     <View style={{ flexDirection: 'row' }}>
                         <Text>
-                            <Text style={styles.time}>Rạp: </Text> 1
+                            <Text style={styles.time}>Rạp: </Text> {item.name}
                         </Text>
                     </View>
                     <View style={{ flexDirection: 'row', marginTop: 20 }}>
-                        <Text style={styles.price}>Tổng thanh toán: 150.000 vnđ</Text>
+                        <Text style={styles.price}>Tổng thanh toán: {item.price} vnđ</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -86,7 +110,7 @@ export const OrdersHistory = () => {
             <ScrollView>
                 <Header contentTabBar={renderContentTabBar()} />
                 <View>
-                    {DATA_FIXED.map((data, index) => {
+                    {orderInfo?.map((data: any, index: number) => {
                         return <FilmItem key={index} item={data} index={index} />;
                     })}
                 </View>

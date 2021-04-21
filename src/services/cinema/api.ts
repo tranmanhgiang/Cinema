@@ -1,4 +1,4 @@
-import { BookTicketParams, BookTicketResponse, GetCinemaByIdParams, ListFilmsResponse } from '@common/api/ApiTypes';
+import { GetCinemaByIdParams, ListFilmsResponse } from '@common/api/ApiTypes';
 import { AxiosInstance } from 'axios';
 
 const cinemaUrl = '/cinema/';
@@ -13,16 +13,6 @@ export class CinemaService {
 
     getCinemaById = async (params: GetCinemaByIdParams): Promise<any> => {
         const res = await this.axios.post(`${cinemaUrl}get-cinema-by-film-id`, params);
-        return res.data;
-    };
-
-    checkSeatSelected = async (params: any): Promise<any> => {
-        const res = await this.axios.post(`${cinemaUrl}check-seat-selected`, params);
-        return res.data;
-    };
-
-    bookTicket = async (params: BookTicketParams): Promise<BookTicketResponse> => {
-        const res = await this.axios.post(`${cinemaUrl}book-ticket`, params);
         return res.data;
     };
 

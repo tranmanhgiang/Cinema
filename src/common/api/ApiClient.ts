@@ -1,4 +1,5 @@
 import { AppConstants } from '@common/constants';
+import { getTokenStorage } from '@common/utils/storage';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { stringify } from 'qs';
 
@@ -11,22 +12,26 @@ const ApiClient = axios.create({
     paramsSerializer: (params: any) => stringify(params, { arrayFormat: 'repeat' }),
 });
 
+export interface StorageTokenUser {
+    Token: string;
+}
+
 ApiClient.interceptors.request.use(
     async (config: AxiosRequestConfig) => {
-        // let token = null;
-        // try {
-        //     const tokenStorage: StorageTokenUser | null = await getTokenStorage();
-        //     if (tokenStorage !== null) {
-        //         const dataTokenStorage: StorageTokenUser = tokenStorage;
-        //         token = dataTokenStorage.Token;
-        //     }
-        // } catch (err) {
-        //     console.error(err);
-        // }
-        // if (token) {
-        //     config.headers.Authorization = `Bearer ${token}`;
-        //     config.headers['Authorization-Token'] = token;
-        // }
+        let token = null;
+        try {
+            const tokenStorage: StorageTokenUser | null = await getTokenStorage();
+            if (tokenStorage !== null) {
+                const dataTokenStorage: StorageTokenUser = tokenStorage;
+                token = dataTokenStorage.Token;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+            config.headers['Authorization-Token'] = token;
+        }
         return config;
     },
     (error: any) => {

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React from 'react';
 import { Text, View } from 'react-native';
 import Barcode from 'react-native-barcode-svg';
@@ -16,19 +17,19 @@ export const TicketInfo = ({ onOk, ticketItem }: TicketInfoProps) => {
             <View style={styles.inFoTicket}>
                 <View>
                     <Text style={styles.titleInfo}>THEATER</Text>
-                    <Text>{ticketItem.theater}</Text>
+                    <Text>{ticketItem.name}</Text>
                 </View>
                 <View>
                     <Text style={styles.titleInfo}>DATE</Text>
-                    <Text>06/05/1999</Text>
+                    <Text>{ticketItem.date}</Text>
                 </View>
                 <View>
                     <Text style={styles.titleInfo}>TIME</Text>
-                    <Text>20:00</Text>
+                    <Text>{dayjs(ticketItem.time).format('HH:mm A')}</Text>
                 </View>
             </View>
             <View style={{ alignItems: 'center' }}>
-                <Barcode value="1234567890" maxWidth={250} />
+                <Barcode value={ticketItem.code} maxWidth={250} />
             </View>
             <View style={{ flexDirection: 'row' }}>
                 <Text style={{ flex: 3 }} />

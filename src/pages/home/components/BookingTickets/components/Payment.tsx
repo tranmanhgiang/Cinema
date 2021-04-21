@@ -1,4 +1,4 @@
-import common from '@common/assets/theme/common';
+import common, { OptionToast } from '@common/assets/theme/common';
 import { Colors } from '@common/assets/theme/variables';
 import { ImageUrls, ScenesKey } from '@common/constants';
 import Header from '@components/AppHeader/Header';
@@ -19,8 +19,7 @@ import Toast from 'react-native-root-toast';
 import { getErrorMessage } from '@common/utils/detectErrorApi';
 
 export const Payment = ({ route }: any) => {
-    // const { bookingTime, bookingDate, filmId, cinemaSelected } = route.params;
-    console.log('time: ', route.params.bookingTime);
+    const { bookingTime, bookingDate, filmId, cinemaSelected } = route.params;
 
     const navigation = useNavigation();
     const ticket = useSelector((state: GlobalState) => state.ticket);
@@ -35,22 +34,23 @@ export const Payment = ({ route }: any) => {
         );
     };
 
-    // const bookTicket = async () => {
-    //     try {
-    //         const formBookTicket = {
-    //             userId: 1,
-    //             price: ticket.price,
-    //             code: formatOrderByDate(),
-    //             date: '1',
-    //             filmId: filmId,
-    //             theaterId: cinemaSelected,
-    //             seat: ticket.seats,
-    //         };
-    //         await api.cinema.bookTicket(formBookTicket);
-    //     } catch (error) {
-    //         Toast.show(getErrorMessage(error), OptionToast);
-    //     }
-    // };
+    const bookTicket = async () => {
+        try {
+            const formBookTicket = {
+                price: ticket.price,
+                code: formatOrderByDate(),
+                date: bookingDate,
+                time: bookingTime,
+                filmId,
+                theaterId: cinemaSelected,
+                seat: ticket.seats,
+            };
+
+            await api.user.bookTicket(formBookTicket);
+        } catch (error) {
+            Toast.show(getErrorMessage(error), OptionToast);
+        }
+    };
 
     // const paymentVNPay = async () => {
     //     try {
@@ -103,7 +103,7 @@ export const Payment = ({ route }: any) => {
                     <Button
                         onPress={() => {
                             // setIsModalVisible(true);
-                            // bookTicket();
+                            bookTicket();
                             // paymentVNPay();
                         }}
                         buttonContainerStyle={styles.buttonPayNow}

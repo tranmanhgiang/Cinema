@@ -8,8 +8,9 @@ import styles from './SignUpStyles';
 import { goToVerifyAccount } from '@pages/auth/verify-account/VerifyAccountNavigation';
 import { ImageUrls, VERIFY_ACCOUNT_TYPE_SCREEN } from '@common/constants';
 import { Colors } from '@common/assets/theme/variables';
-import common from '@common/assets/theme/common';
+import common, { OptionToast } from '@common/assets/theme/common';
 import api from '@common/api';
+import Toast from 'react-native-root-toast';
 
 interface SignUpProps {
     navigation: any;
@@ -29,18 +30,25 @@ export const SignUp = ({ navigation }: SignUpProps): React.ReactElement => {
             const res = await api.auth.sendEmailGetVerifyCode({
                 email: values.email,
             });
-            setLoading(false);
-            goToVerifyAccount(navigation, {
-                firstName: values.firstName,
-                lastName: values.lastName,
-                email: values.email,
-                phone: values.phone,
-                password: values.password,
-                hash: res.hash,
-                type: VERIFY_ACCOUNT_TYPE_SCREEN.SIGN_UP,
-            });
+            if (res.success === 'true') {
+                setLoading(false);
+                goToVerifyAccount(navigation, {
+                    firstName: values.firstName,
+                    lastName: values.lastName,
+                    email: values.email,
+                    phone: values.phone,
+                    password: values.password,
+                    hash: res.hash,
+                    type: VERIFY_ACCOUNT_TYPE_SCREEN.SIGN_UP,
+                });
+            } else {
+                setLoading(false);
+                Toast.show('Email đã tồn tại', OptionToast);
+            }
         } catch (error) {
             console.log(error);
+            setLoading(false);
+            Toast.show('Email đã tồn tại', OptionToast);
         }
     };
 

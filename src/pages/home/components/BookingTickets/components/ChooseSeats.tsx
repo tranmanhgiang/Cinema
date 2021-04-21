@@ -16,13 +16,14 @@ import styles from '../BookingTicketStyles';
 
 export const ChooseSeats = ({ route }: any) => {
     const { film, bookingDate, bookingTime, cinemaSelected } = route.params;
+
     const navigation = useNavigation();
     const price = useSelector((state: GlobalState) => state.ticket.price);
     const [isVisibleBuyTicket, setIsVisibleBuyTicket] = useState(false);
     const [seatArr, setSeatArr] = useState<SeatStatus[]>([]);
 
     const renderRoom = async () => {
-        const seatSelected = await api.cinema.checkSeatSelected({ theaterId: cinemaSelected, filmId: film.id });
+        const seatSelected = await api.user.checkSeatSelected({ theaterId: cinemaSelected, filmId: film.id, date: bookingDate, time: bookingTime });
         const newSeatArr: SeatStatus[] = [];
         for (let i = 1; i <= 30; i++) {
             newSeatArr.push({ index: i, isSelected: seatSelected.data.includes(i) });

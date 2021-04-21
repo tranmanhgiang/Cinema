@@ -6,7 +6,9 @@ const ns = 'user/';
 export const ActionsTypes = {
     getCurrentUser: `${ns}GET_CURRENT_USER`,
     getUserSettings: `${ns}GET_USER_SETTINGS`,
+    getProfile: `${ns}GET_PROFILE`,
 };
 
 export const getCurrentUser = createAction(ActionsTypes.getCurrentUser);
 export const getUserSettings = loadableDataActions<undefined, any>(ActionsTypes.getUserSettings);
+export const getCurrentUserSuccess = createAction(ActionsTypes.getProfile);

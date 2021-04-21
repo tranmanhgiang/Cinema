@@ -26,6 +26,7 @@ export interface SendEmailGetVerifyCode {
 }
 
 export interface SendEmailGetVerifyCodeResponse {
+    success: string;
     message: string;
     hash: string;
 }
@@ -70,10 +71,11 @@ export interface GetCinemaByIdParams {
 }
 
 export interface BookTicketParams {
-    userId: number;
+    // userId: number;
     price: number;
     code: string;
     date: string;
+    time: string;
     filmId: number;
     theaterId: number;
     seat: number[];

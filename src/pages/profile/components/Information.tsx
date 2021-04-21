@@ -6,11 +6,15 @@ import Icon, { VectorIconName } from '@components/VectorIcon/VectorIcon';
 import styles from '../ProfileStyles';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { formatDateOfBirth } from '@common/utils/time';
+import { GlobalState } from '@common/redux/rootReducer';
+import { useSelector } from 'react-redux';
 
 export const Information = () => {
     const navigation = useNavigation();
-    const [userName, setUserName] = useState('Tran Manh Giang');
+    const userProfile = useSelector((state: GlobalState) => state.user.userProfile);
+    console.log('userProfile: ', userProfile);
+
+    const [userName, setUserName] = useState(userProfile.lastName + ' ' + userProfile.firstName);
     const [bookingDate, setBookingDate] = useState(new Date());
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -48,7 +52,7 @@ export const Information = () => {
                         <Icon containerStyle={styles.iconCamera} type={VectorIconName.FontAweSome} name="camera" size={8} color={Colors.black} />
                     </TouchableOpacity>
                     <View style={styles.txtInfo}>
-                        <Text style={styles.name}>Tran Manh Giang</Text>
+                        <Text style={styles.name}>{userProfile.lastName + ' ' + userProfile.firstName}</Text>
                     </View>
                 </View>
             </View>
@@ -65,17 +69,17 @@ export const Information = () => {
                 <View style={styles.infoItem}>
                     <Text style={styles.title}>Ngày sinh </Text>
                     <Text style={styles.info} onPress={showDatePicker}>
-                        {formatDateOfBirth(bookingDate)}
+                        06/05/1999
                     </Text>
                 </View>
                 <View style={styles.infoItem}>
                     <Text style={styles.title}>Email </Text>
-                    <Text style={styles.info}>tranmanhgiang06051999@gmail.com</Text>
+                    <Text style={styles.info}>{userProfile.email}</Text>
                 </View>
                 <View style={styles.infoLastItem}>
                     <Text style={styles.title}>Điện thoại </Text>
                     <View style={styles.info}>
-                        <Text style={styles.text}>0395578355</Text>
+                        <Text style={styles.text}>0{userProfile.phone}</Text>
                         <Text style={styles.text}>
                             Chỉ có bạn mới có thể nhìn thấy số điện thoại này. Chúng tôi sẽ không công khai số điện thoại của bạn ra bên ngoài
                         </Text>

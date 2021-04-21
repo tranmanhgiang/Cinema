@@ -19,8 +19,8 @@ export const BookingTicket = ({ route }: any) => {
     const [bookingTime, setBookingTime] = useState<number>();
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [cinemaSelected, setCinemaSelected] = useState<number>();
-    const [cinema, setCinema] = useState<number[]>([]);
-    const [showTime, setShowTime] = useState<number[]>([]);
+    const [cinema, setCinema] = useState<any[]>([]);
+    const [showTime, setShowTime] = useState<any[]>([]);
     const [resTemp, setResTemp] = useState<any>();
 
     const getCinemaByFilmId = async () => {
@@ -57,7 +57,8 @@ export const BookingTicket = ({ route }: any) => {
         const timeOfTheater: any[] = [];
         resTemp.data.map((item: any) => {
             if (item.roomId === theaterId) {
-                timeOfTheater.push(dayjs(parseInt(item.timeMilestones, 10)).format('HH:mm A'));
+                // timeOfTheater.push(dayjs(parseInt(item.timeMilestones, 10)).format('HH:mm A'));
+                timeOfTheater.push(item.timeMilestones);
             }
         });
 
@@ -122,7 +123,8 @@ export const BookingTicket = ({ route }: any) => {
                                                     }}
                                                     style={bookingTime === time ? styles.timeItemSelected : styles.timeItem}
                                                 >
-                                                    {time}
+                                                    {/* {time} */}
+                                                    {dayjs(parseInt(time, 10)).format('HH:mm A')}
                                                 </Text>
                                             );
                                         })}

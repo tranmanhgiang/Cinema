@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import Header from '@components/AppHeader/Header';
 import styles from './ProfileStyles';
-import { ScenesKey } from '@common/constants';
+import { ScenesKey, TOKEN_STORAGE_KEY } from '@common/constants';
 import Icon, { VectorIconName } from '@components/VectorIcon/VectorIcon';
 import { Colors } from '@common/assets/theme/variables';
 import common from '@common/assets/theme/common';
 import Button from '@components/Button/Button';
 import StepIndicator from 'react-native-step-indicator';
 import { useNavigation } from '@react-navigation/native';
+import { logoutAction } from '@services/auth/actions';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUser } from '@services/user/actions';
+import { GlobalState } from '@common/redux/rootReducer';
 
 export const Profile = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const userProfile = useSelector((state: GlobalState) => state.user.userProfile);
+    console.log(userProfile);
+
+    useEffect(() => {
+        dispatch(getCurrentUser());
+    }, []);
     const sourceUri = false;
     const renderContentTabBar = () => <Text style={styles.contentTabBar}>Tài khoản</Text>;
     const renderRightTabBar = () => {
@@ -93,86 +105,102 @@ export const Profile = () => {
     return (
         <ScrollView>
             <Header contentTabBar={renderContentTabBar()} rightTabBar={renderRightTabBar()} />
-            <View style={styles.overViewContainer}>
-                <View style={styles.overView}>
-                    <View style={{ marginVertical: 5, flexDirection: 'row' }}>
-                        <TouchableOpacity
-                            style={styles.avatar}
-                            onPress={() => {
-                                console.log('change avatar');
-                            }}
-                        >
-                            {!sourceUri && (
+            {!!userProfile.id && (
+                <View style={styles.overViewContainer}>
+                    <View style={styles.overView}>
+                        <View style={{ marginVertical: 5, flexDirection: 'row' }}>
+                            <TouchableOpacity
+                                style={styles.avatar}
+                                onPress={() => {
+                                    console.log('change avatar');
+                                }}
+                            >
+                                {!sourceUri && (
+                                    <Icon
+                                        containerStyle={styles.iconPerson}
+                                        type={VectorIconName.Ionicons}
+                                        name="person-outline"
+                                        size={40}
+                                        color={Colors.red}
+                                    />
+                                )}
                                 <Icon
-                                    containerStyle={styles.iconPerson}
-                                    type={VectorIconName.Ionicons}
-                                    name="person-outline"
-                                    size={40}
-                                    color={Colors.red}
+                                    containerStyle={styles.iconCamera}
+                                    type={VectorIconName.FontAweSome}
+                                    name="camera"
+                                    size={8}
+                                    color={Colors.black}
                                 />
-                            )}
-                            <Icon containerStyle={styles.iconCamera} type={VectorIconName.FontAweSome} name="camera" size={8} color={Colors.black} />
-                        </TouchableOpacity>
-                        <View style={styles.txtInfo}>
-                            <Text>Tran Manh Giang</Text>
-                            <Text>Gold</Text>
+                            </TouchableOpacity>
+                            <View style={styles.txtInfo}>
+                                <Text>{userProfile.lastName + ' ' + userProfile.firstName}</Text>
+                                <Text>Gold</Text>
+                            </View>
+                        </View>
+                        <View style={{ alignItems: 'center' }}>
+                            <Icon containerStyle={styles.qrCode} type={VectorIconName.FontAweSome} name="qrcode" size={35} color={Colors.black} />
+                            <Text>Mã thành viên</Text>
                         </View>
                     </View>
-                    <View style={{ alignItems: 'center' }}>
-                        <Icon containerStyle={styles.qrCode} type={VectorIconName.FontAweSome} name="qrcode" size={35} color={Colors.black} />
-                        <Text>Mã thành viên</Text>
+                    <View style={styles.tab}>
+                        <TouchableOpacity
+                            style={styles.tabItem}
+                            onPress={() => {
+                                navigation.navigate(ScenesKey.EDIT_INFORMATION);
+                            }}
+                        >
+                            <Icon
+                                containerStyle={styles.iconPerson}
+                                type={VectorIconName.FontAweSome}
+                                name="pencil-square-o"
+                                size={20}
+                                color={Colors.red}
+                            />
+                            <Text style={styles.txtItem}>Thông tin</Text>
+                        </TouchableOpacity>
+                        <View style={styles.middleItem}>
+                            <Icon
+                                containerStyle={styles.iconPerson}
+                                type={VectorIconName.FontAweSome}
+                                name="check-circle"
+                                size={20}
+                                color={Colors.red}
+                            />
+                            <Text style={styles.txtItem}>Tích điểm</Text>
+                        </View>
+                        <View style={styles.tabItem}>
+                            <Icon containerStyle={styles.iconPerson} type={VectorIconName.FontAweSome} name="gift" size={20} color={Colors.red} />
+                            <Text style={styles.txtItem}>Đổi quà</Text>
+                        </View>
                     </View>
                 </View>
-                <View style={styles.tab}>
-                    <TouchableOpacity
-                        style={styles.tabItem}
-                        onPress={() => {
-                            navigation.navigate(ScenesKey.EDIT_INFORMATION);
-                        }}
-                    >
-                        <Icon
-                            containerStyle={styles.iconPerson}
-                            type={VectorIconName.FontAweSome}
-                            name="pencil-square-o"
-                            size={20}
-                            color={Colors.red}
+            )}
+            {!!userProfile.id && (
+                <View style={[styles.expenditureContainer, common.shadow]}>
+                    <View style={styles.expenditureSection}>
+                        <View style={styles.expenditure}>
+                            <Text>Chi tiêu năm 2021</Text>
+                            <Icon
+                                containerStyle={styles.exclamationIcon}
+                                type={VectorIconName.FontAweSome}
+                                name="exclamation"
+                                size={18}
+                                color={Colors.black}
+                            />
+                        </View>
+                        <Text>3.000.000 đ</Text>
+                    </View>
+                    <View style={styles.progressMember}>
+                        <StepIndicator
+                            renderStepIndicator={renderStepIndicator}
+                            customStyles={customStyles}
+                            currentPosition={1}
+                            stepCount={4}
+                            labels={labels}
                         />
-                        <Text style={styles.txtItem}>Thông tin</Text>
-                    </TouchableOpacity>
-                    <View style={styles.middleItem}>
-                        <Icon containerStyle={styles.iconPerson} type={VectorIconName.FontAweSome} name="check-circle" size={20} color={Colors.red} />
-                        <Text style={styles.txtItem}>Tích điểm</Text>
-                    </View>
-                    <View style={styles.tabItem}>
-                        <Icon containerStyle={styles.iconPerson} type={VectorIconName.FontAweSome} name="gift" size={20} color={Colors.red} />
-                        <Text style={styles.txtItem}>Đổi quà</Text>
                     </View>
                 </View>
-            </View>
-            <View style={[styles.expenditureContainer, common.shadow]}>
-                <View style={styles.expenditureSection}>
-                    <View style={styles.expenditure}>
-                        <Text>Chi tiêu năm 2021</Text>
-                        <Icon
-                            containerStyle={styles.exclamationIcon}
-                            type={VectorIconName.FontAweSome}
-                            name="exclamation"
-                            size={18}
-                            color={Colors.black}
-                        />
-                    </View>
-                    <Text>3.000.000 đ</Text>
-                </View>
-                <View style={styles.progressMember}>
-                    <StepIndicator
-                        renderStepIndicator={renderStepIndicator}
-                        customStyles={customStyles}
-                        currentPosition={1}
-                        stepCount={4}
-                        labels={labels}
-                    />
-                </View>
-            </View>
+            )}
             <View style={styles.supportSection}>
                 <View style={[styles.support, common.shadow]}>
                     <Text style={styles.supportField}>
@@ -209,16 +237,20 @@ export const Profile = () => {
                     />
                 </View>
             </View>
-            <View>
-                <Button
-                    onPress={() => {
-                        console.log('logout');
-                    }}
-                    buttonContainerStyle={styles.buttonLogout}
-                >
-                    <Text style={styles.txtLogout}>Đăng xuất</Text>
-                </Button>
-            </View>
+            {!!userProfile.id && (
+                <View>
+                    <Button
+                        onPress={() => {
+                            AsyncStorage.removeItem(TOKEN_STORAGE_KEY);
+                            dispatch(logoutAction());
+                            navigation.navigate(ScenesKey.HOME);
+                        }}
+                        buttonContainerStyle={styles.buttonLogout}
+                    >
+                        <Text style={styles.txtLogout}>Đăng xuất</Text>
+                    </Button>
+                </View>
+            )}
         </ScrollView>
     );
 };

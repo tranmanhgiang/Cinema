@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { ScenesKey, FILM_DETAIL_TYPE_SCREEN, listFilmsDefault } from '@common/constants';
 import api from '@common/api';
 import { ListFilmsResponse } from '@common/api/ApiTypes';
+import { getTokenStorage } from '@common/utils/storage';
 
 export const ITEM_WIDTH = Math.round(SCREEN_WIDTH * 0.6);
 
@@ -21,7 +22,18 @@ export const NowShowing = () => {
     const [listFilms, setListFilms] = useState<ListFilmsResponse>(listFilmsDefault);
     const getListFilms = async () => {
         const newListFilms = await api.cinema.getListFilms();
+        console.log(newListFilms);
+
         setListFilms(newListFilms);
+    };
+
+    const getTokenFromStorage = async (item: any) => {
+        const tokenStorage = await getTokenStorage();
+        if (tokenStorage !== null) {
+            navigation.navigate(ScenesKey.BOOKING_TICKETS, { film: item });
+        } else {
+            navigation.navigate(ScenesKey.LOGIN);
+        }
     };
 
     useEffect(() => {
@@ -40,7 +52,7 @@ export const NowShowing = () => {
                 </TouchableOpacity>
                 <View style={styles.infoFilm}>
                     <View style={styles.leftInfo}>
-                        <Text style={styles.filmName}>{item.name}</Text>
+                        <Text style={styles.filmName}>{item.filmName}</Text>
                         <View style={{ flexDirection: 'row' }}>
                             <Icon type={VectorIconName.FontAweSome} name="star" size={15} color={Colors.orange} />
                             <Icon type={VectorIconName.FontAweSome} name="star" size={15} color={Colors.orange} />
@@ -52,7 +64,7 @@ export const NowShowing = () => {
                     <TouchableOpacity
                         style={styles.bookingTicket}
                         onPress={() => {
-                            navigation.navigate(ScenesKey.BOOKING_TICKETS, { film: item });
+                            getTokenFromStorage(item);
                         }}
                     >
                         <Text style={styles.txtTicket}>Đặt vé</Text>
