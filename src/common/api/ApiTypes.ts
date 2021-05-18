@@ -79,8 +79,44 @@ export interface BookTicketParams {
     filmId: number;
     theaterId: number;
     seat: number[];
+    popcornId: string;
 }
 
 export interface BookTicketResponse {
     message: string;
+}
+
+export interface EditProfileParams {
+    id: number;
+    firstName: string;
+    email: string;
+    lastName: string;
+    phone: number;
+    isDeleted: number;
+}
+
+export interface ToppingType {
+    quantity: number;
+    id: number;
+    name: string;
+    price: number;
+}
+
+export interface PopcornItem {
+    id: number;
+    name: string;
+    imageUrl: string;
+    description: string;
+    price: number;
+    isDeleted: number;
+}
+
+export interface PopcornsResponse {
+    data: PopcornItem[];
+    message: string;
+}
+
+export interface SendEmailInviteFriendsParams {
+    email: string;
+    content: string;
 }

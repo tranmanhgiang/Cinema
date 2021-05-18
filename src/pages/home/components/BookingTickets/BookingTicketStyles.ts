@@ -1,4 +1,4 @@
-import { Colors, FontSize } from '@common/assets/theme/variables';
+import { Colors, FontSize, SCREEN_HEIGHT } from '@common/assets/theme/variables';
 import { StyleSheet } from 'react-native';
 import { SCREEN_WIDTH } from '@common/assets/theme/variables';
 import { FONTS } from '@common/constants';
@@ -71,7 +71,6 @@ export default StyleSheet.create({
         backgroundColor: Colors.whiteMilk,
         height: 70,
         borderRadius: 10,
-        marginTop: 100,
     },
     priceSection: {
         flex: 1,
@@ -144,6 +143,19 @@ export default StyleSheet.create({
         backgroundColor: Colors.white,
         paddingHorizontal: 10,
         borderRadius: 4,
+    },
+    voucher: {
+        paddingHorizontal: 5,
+        marginVertical: 10,
+        marginHorizontal: 48,
+        flexDirection: 'row',
+        backgroundColor: Colors.white,
+        paddingVertical: 10,
+        justifyContent: 'space-between',
+    },
+    txtTitle: {
+        color: Colors.black,
+        fontFamily: FONTS.SFProText.BOLD,
     },
     paymentMethod: {
         paddingHorizontal: 16,

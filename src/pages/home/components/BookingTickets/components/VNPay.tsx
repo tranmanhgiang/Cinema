@@ -18,7 +18,7 @@ export const VNPay = ({ route }: any) => {
         );
     };
 
-    const renderContentTabBar = () => <Text style={styles.txtBack}>VNPay</Text>;
+    const renderContentTabBar = () => <Text style={styles.txtBack}>Thanh toán</Text>;
 
     return (
         <>

@@ -22,8 +22,6 @@ export const NowShowing = () => {
     const [listFilms, setListFilms] = useState<ListFilmsResponse>(listFilmsDefault);
     const getListFilms = async () => {
         const newListFilms = await api.cinema.getListFilms();
-        console.log(newListFilms);
-
         setListFilms(newListFilms);
     };
 

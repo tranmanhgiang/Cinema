@@ -56,11 +56,11 @@ export const Seats = ({ seatArr, isVisibleBuyTicket, setIsVisibleBuyTicket }: Se
             <View style={styles.note}>
                 <View style={styles.noteItem}>
                     <Text style={styles.seat} />
-                    <Text>available</Text>
+                    <Text>còn trống</Text>
                 </View>
                 <View style={styles.noteItem}>
                     <Text style={styles.seatSelected} />
-                    <Text style={{ color: 'red', alignItems: 'center' }}>selected</Text>
+                    <Text style={{ color: 'red', alignItems: 'center' }}>đã đặt</Text>
                 </View>
             </View>
         </>

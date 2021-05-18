@@ -11,12 +11,18 @@ import { NowShowing } from './components/NowShowing/NowShowing';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser } from '@services/user/actions';
 import { GlobalState } from '@common/redux/rootReducer';
+import { resetCheckout } from '@services/cinema/actions';
+import { useNavigation } from '@react-navigation/native';
+import { goToLogin } from '@pages/auth/login/LoginNavigation';
 
 export const Home = () => {
     const dispatch = useDispatch();
+    const navigation = useNavigation();
     const userProfile = useSelector((state: GlobalState) => state.user.userProfile);
+
     useEffect(() => {
         dispatch(getCurrentUser());
+        dispatch(resetCheckout());
     }, []);
 
     const renderLeftTabBar = () => <Text style={styles.txtLeftTabBar}>Hi, {userProfile.lastName ? userProfile.lastName : 'Guest'}</Text>;
@@ -26,7 +32,9 @@ export const Home = () => {
                 <TouchableOpacity
                     style={styles.avatar}
                     onPress={() => {
-                        console.log('change avatar');
+                        if (!userProfile.id) {
+                            goToLogin(navigation);
+                        }
                     }}
                 >
                     {userProfile.id ? (

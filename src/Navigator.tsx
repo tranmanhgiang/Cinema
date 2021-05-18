@@ -20,6 +20,7 @@ import { BookingTicket } from '@pages/home/components/BookingTickets/BookingTick
 import { ChooseSeats } from '@pages/home/components/BookingTickets/components/ChooseSeats';
 import { Payment } from '@pages/home/components/BookingTickets/components/Payment';
 import { Information } from '@pages/profile/components/Information';
+import { Coupon } from '@pages/home/components/BookingTickets/components/Coupon/Coupon';
 import { VNPay } from '@pages/home/components/BookingTickets/components/VNPay';
 
 const Stack = createStackNavigator();
@@ -59,8 +60,13 @@ const HomeTab = () => {
             <Stack.Screen name={ScenesKey.BOOKING_TICKETS} component={BookingTicket} />
             <Stack.Screen name={ScenesKey.CHOOSE_SEATS} component={ChooseSeats} />
             <Stack.Screen name={ScenesKey.PAYMENT} component={Payment} />
+            <Stack.Screen name={ScenesKey.COUPON} component={Coupon} />
             <Stack.Screen name={ScenesKey.VN_PAY} component={VNPay} />
             <Stack.Screen name={ScenesKey.LOGIN} component={Login} />
+            <Stack.Screen name={ScenesKey.SIGN_UP} component={SignUp} />
+            <Stack.Screen name={ScenesKey.VERIFY_ACCOUNT} component={VerifyAccount} />
+            <Stack.Screen name={ScenesKey.RESET_PASSWORD} component={ResetPassword} />
+            <Stack.Screen name={ScenesKey.SET_NEW_PASSWORD} component={SetNewPassword} />
         </Stack.Navigator>
     );
 };

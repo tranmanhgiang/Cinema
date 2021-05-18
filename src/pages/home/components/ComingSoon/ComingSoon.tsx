@@ -1,11 +1,13 @@
 import { Colors, SCREEN_WIDTH } from '@common/assets/theme/variables';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, View, Text, TouchableOpacity } from 'react-native';
 import styles from './ComingSoonStyles';
 import common from '@common/assets/theme/common';
 import Icon, { VectorIconName } from '@components/VectorIcon/VectorIcon';
 import { useNavigation } from '@react-navigation/native';
-import { FILM_DETAIL_TYPE_SCREEN, ScenesKey } from '@common/constants';
+import { FILM_DETAIL_TYPE_SCREEN, listFilmsDefault, ScenesKey } from '@common/constants';
+import api from '@common/api';
+import { ListFilmsResponse } from '@common/api/ApiTypes';
 
 export const ITEM_WIDTH = Math.round(SCREEN_WIDTH * 0.6);
 
@@ -49,21 +51,34 @@ export interface FilmItemProps {
 
 export const ComingSoon = () => {
     const navigation = useNavigation();
+    const [listFilms, setListFilms] = useState<ListFilmsResponse>(listFilmsDefault);
+
+    const getFilmsComingSoon = async () => {
+        const res = await api.cinema.getFilmsComingSoon();
+        if (res.message === 'true') {
+            setListFilms(res);
+        }
+    };
+
+    useEffect(() => {
+        getFilmsComingSoon();
+    }, []);
+
     const FilmItem = ({ item, index }: FilmItemProps) => {
         return (
             <View style={[styles.itemContainer, common.shadow]}>
                 <View key={index}>
-                    <Image source={{ uri: item.imgUrl }} style={styles.image} />
+                    <Image source={{ uri: item.imageUrl }} style={styles.image} />
                 </View>
                 <View style={styles.details}>
-                    <Text style={styles.filmName}>{item.name}</Text>
+                    <Text style={styles.filmName}>{item.filmName}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <Text>
-                            <Text style={styles.time}>Time:</Text> 2h30m
+                            <Text style={styles.time}>Time:</Text> {parseInt(item.duration, 10) / 60000} phút
                         </Text>
                     </View>
                     <Text style={styles.descriptions} numberOfLines={2}>
-                        {item.body}
+                        {item.description}
                     </Text>
                     <TouchableOpacity
                         style={styles.viewDetail}
@@ -81,7 +96,7 @@ export const ComingSoon = () => {
 
     return (
         <View>
-            {DATA_FIXED.map((data, index) => {
+            {listFilms.data.map((data, index) => {
                 return <FilmItem key={index} item={data} index={index} />;
             })}
         </View>

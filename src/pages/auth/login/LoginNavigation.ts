@@ -1,6 +1,5 @@
 import { ScenesKey } from '@common/constants';
-import { NavigationProps } from '@common/types';
 
-export const goToLogin = (navigation: NavigationProps) => {
+export const goToLogin = (navigation: any) => {
     navigation.navigate(ScenesKey.LOGIN);
 };

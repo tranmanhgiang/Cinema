@@ -10,7 +10,6 @@ import api from '@common/api';
 import { VERIFY_ACCOUNT_TYPE_SCREEN } from '@common/constants';
 import { goToVerifyAccount } from '../verify-account/VerifyAccountNavigation';
 import Toast from 'react-native-root-toast';
-import { getErrorMessage } from '@common/utils/detectErrorApi';
 import { OptionToast } from '@common/assets/theme/common';
 
 interface ResetPasswordProps {
@@ -32,7 +31,7 @@ export const ResetPassword = ({ navigation }: ResetPasswordProps): React.ReactEl
             goToVerifyAccount(navigation, { hash: res.hash, email: values.email, type: VERIFY_ACCOUNT_TYPE_SCREEN.RESET_PASSWORD });
         } catch (error) {
             setLoading(false);
-            Toast.show(getErrorMessage(error), OptionToast);
+            Toast.show('Email chưa được dùng để đăng ký tài khoản', OptionToast);
         }
     };
 
@@ -50,11 +49,11 @@ export const ResetPassword = ({ navigation }: ResetPasswordProps): React.ReactEl
         <View style={styles.background}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flexGrow: 1 }}>
                 <View style={styles.logoField}>
-                    <Text style={styles.title}>Forgot Password</Text>
+                    <Text style={styles.title}>Quên mật khẩu</Text>
                 </View>
                 <View style={styles.buttonField}>
                     <ScrollView>
-                        <Text style={styles.text}>Please enter your email</Text>
+                        <Text style={styles.text}>Vui lòng nhập email của bạn</Text>
                         <Formik
                             enableReinitialize={true}
                             initialValues={getInitialValues()}
@@ -80,7 +79,7 @@ export const ResetPassword = ({ navigation }: ResetPasswordProps): React.ReactEl
                                             />
                                         </View>
                                         <Button onPress={() => handleSubmit()} loading={loading} buttonContainerStyle={styles.buttonSubmit}>
-                                            <Text style={styles.txtSubmit}>Submit</Text>
+                                            <Text style={styles.txtSubmit}>Tiếp tục</Text>
                                         </Button>
                                     </>
                                 );

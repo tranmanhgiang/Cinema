@@ -5,11 +5,11 @@ import Button from '@components/Button/Button';
 import { VerifyByKey } from '@pages/auth/verify-account/component/verify-by-key/VerifyByKey';
 import api from '@common/api';
 import { useNavigation } from '@react-navigation/native';
-import { goToStart } from '../start/StartNavigation';
 import { VERIFY_ACCOUNT_TYPE_SCREEN } from '@common/constants';
 import { goToSetNewPassword } from '../set-new-password/SetNewPasswordNavigation';
 import Toast from 'react-native-root-toast';
 import { OptionToast, OptionToastSuccess } from '@common/assets/theme/common';
+import { goToLogin } from '../login/LoginNavigation';
 
 export enum VerifyOptions {
     BY_KEY = 'byKey',
@@ -42,11 +42,11 @@ export const VerifyAccount = ({ route }: VerifyAccountProps) => {
                 setLoading(true);
                 await api.auth.signUp(formSignUp);
                 setLoading(false);
-                Toast.show('Sign up successfully', OptionToastSuccess);
-                goToStart(navigation);
+                Toast.show('Đăng ký thành công', OptionToastSuccess);
+                goToLogin(navigation);
             } catch (error) {
                 setLoading(false);
-                Toast.show('Invalid code', OptionToast);
+                Toast.show('Mã xác thực không chính xác', OptionToast);
             }
         } else if (route.params.type === VERIFY_ACCOUNT_TYPE_SCREEN.RESET_PASSWORD) {
             try {
@@ -59,7 +59,7 @@ export const VerifyAccount = ({ route }: VerifyAccountProps) => {
                 goToSetNewPassword(navigation, { email: route.params.email });
             } catch (error) {
                 setLoading(false);
-                Toast.show('Invalid code', OptionToast);
+                Toast.show('Mã xác thực không chính xác', OptionToast);
             }
         }
     };
@@ -67,9 +67,9 @@ export const VerifyAccount = ({ route }: VerifyAccountProps) => {
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
             <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 40 }}>
-                <VerifyByKey value={verifyByKeyValue} setValue={setVerifyByKeyValue} />
+                <VerifyByKey value={verifyByKeyValue} setValue={setVerifyByKeyValue} type={route.params.type} />
                 <Button loading={loading} onPress={() => handleVerify()} buttonContainerStyle={styles.btn_login}>
-                    <Text style={styles.txtVerify}>Verify</Text>
+                    <Text style={styles.txtVerify}>Xác nhận</Text>
                 </Button>
             </ScrollView>
         </View>

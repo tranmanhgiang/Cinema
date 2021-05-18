@@ -1,22 +1,29 @@
+import { ToppingType } from '@common/api/ApiTypes';
 import { ReducerFactory } from 'redux-actions-ts-reducer';
-import { checkout, getSelectedSeats, resetCheckout } from './actions';
+import { addToppingSuccess, checkout, getSelectedSeats, resetCheckout } from './actions';
 
 export interface DefaultState {
     totalSeats: number;
     seats: number[];
     price: number;
+    topping: ToppingType[];
+    toppingPrice: number;
 }
 
 const defaultState: DefaultState = {
     totalSeats: 0,
     seats: [],
     price: 0,
+    topping: [],
+    toppingPrice: 0,
 };
 
 class State {
     totalSeats = defaultState.totalSeats;
     seats = defaultState.seats;
     price = defaultState.price;
+    topping = defaultState.topping;
+    toppingPrice = defaultState.toppingPrice;
 }
 
 const reducer = new ReducerFactory(new State())
@@ -27,6 +34,21 @@ const reducer = new ReducerFactory(new State())
                 ...state,
                 totalSeats: action.payload.seats.length,
                 seats: action.payload.seats,
+            };
+        }
+    )
+    .addReducer(
+        addToppingSuccess,
+        (state: any, action: any): State => {
+            let newToppingPrice = 0;
+            action.payload.topping.map((item: ToppingType) => {
+                newToppingPrice += item.price * item.quantity;
+            });
+
+            return {
+                ...state,
+                topping: action.payload.topping,
+                toppingPrice: newToppingPrice,
             };
         }
     )
@@ -47,6 +69,8 @@ const reducer = new ReducerFactory(new State())
                 totalSeats: defaultState.totalSeats,
                 seats: defaultState.seats,
                 price: defaultState.price,
+                topping: defaultState.topping,
+                toppingPrice: defaultState.toppingPrice,
             };
         }
     )

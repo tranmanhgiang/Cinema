@@ -19,6 +19,7 @@ export default StyleSheet.create({
         backgroundColor: Colors.red,
         padding: 2,
         flex: 1,
+        maxHeight: 35,
         borderRadius: 20,
         alignItems: 'center',
     },

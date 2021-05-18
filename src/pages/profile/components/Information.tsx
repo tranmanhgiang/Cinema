@@ -5,32 +5,42 @@ import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon, { VectorIconName } from '@components/VectorIcon/VectorIcon';
 import styles from '../ProfileStyles';
 import { useNavigation } from '@react-navigation/native';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { GlobalState } from '@common/redux/rootReducer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import api from '@common/api';
+import Toast from 'react-native-root-toast';
+import { OptionToastSuccess } from '@common/assets/theme/common';
+import { getCurrentUser } from '@services/user/actions';
 
 export const Information = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const userProfile = useSelector((state: GlobalState) => state.user.userProfile);
-    console.log('userProfile: ', userProfile);
-
-    const [userName, setUserName] = useState(userProfile.lastName + ' ' + userProfile.firstName);
-    const [bookingDate, setBookingDate] = useState(new Date());
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const showDatePicker = () => {
-        if (isEditing) {
-            setDatePickerVisibility(true);
+    const [user, setUser] = useState<{ userName: string; phone: string }>({
+        userName: userProfile.lastName + ' ' + userProfile.firstName,
+        phone: userProfile.phone.toString(),
+    });
+
+    const editProfile = async () => {
+        try {
+            const userInfo = {
+                id: userProfile.id,
+                firstName: ' ',
+                email: userProfile.email,
+                lastName: user.userName,
+                phone: parseInt(user.phone, 10),
+                isDeleted: 0,
+            };
+            const res = await api.user.editProfile(userInfo);
+            if (res.message === 'true') {
+                dispatch(getCurrentUser());
+                navigation.goBack();
+                Toast.show('Thay đổi thành công', OptionToastSuccess);
+            }
+        } catch (error) {
+            console.log(error);
         }
-    };
-
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
-
-    const handleConfirm = (date: Date) => {
-        setBookingDate(date);
-        hideDatePicker();
     };
 
     return (
@@ -60,7 +70,15 @@ export const Information = () => {
             <View style={styles.information}>
                 <View style={styles.userNameContainer}>
                     <Text style={styles.userName}>UserName </Text>
-                    <TextInput editable={isEditing} style={styles.info} onChangeText={setUserName} value={userName} placeholder="User name" />
+                    <TextInput
+                        editable={isEditing}
+                        style={styles.info}
+                        onChangeText={(e) => {
+                            setUser({ ...user, userName: e });
+                        }}
+                        value={user.userName}
+                        placeholder="User name"
+                    />
                 </View>
                 <View style={styles.infoItem}>
                     <Text style={styles.title}>Giới tính </Text>
@@ -68,9 +86,7 @@ export const Information = () => {
                 </View>
                 <View style={styles.infoItem}>
                     <Text style={styles.title}>Ngày sinh </Text>
-                    <Text style={styles.info} onPress={showDatePicker}>
-                        06/05/1999
-                    </Text>
+                    <Text style={styles.info}>06/05/1999</Text>
                 </View>
                 <View style={styles.infoItem}>
                     <Text style={styles.title}>Email </Text>
@@ -79,7 +95,17 @@ export const Information = () => {
                 <View style={styles.infoLastItem}>
                     <Text style={styles.title}>Điện thoại </Text>
                     <View style={styles.info}>
-                        <Text style={styles.text}>0{userProfile.phone}</Text>
+                        <Text style={styles.phoneCode}>+84</Text>
+                        <TextInput
+                            keyboardType="numeric"
+                            editable={isEditing}
+                            style={styles.phone}
+                            onChangeText={(e) => {
+                                setUser({ ...user, phone: e });
+                            }}
+                            value={user.phone}
+                            placeholder="Phone"
+                        />
                         <Text style={styles.text}>
                             Chỉ có bạn mới có thể nhìn thấy số điện thoại này. Chúng tôi sẽ không công khai số điện thoại của bạn ra bên ngoài
                         </Text>
@@ -89,20 +115,17 @@ export const Information = () => {
             <View style={styles.btnField}>
                 <Button
                     onPress={() => {
-                        setIsEditing(!isEditing);
+                        if (!isEditing) {
+                            setIsEditing(!isEditing);
+                        } else {
+                            editProfile();
+                        }
                     }}
                     buttonContainerStyle={styles.buttonEditProfile}
                 >
                     <Text style={styles.txtEditProfile}>{isEditing ? 'Cập nhật' : 'Đổi thông tin'}</Text>
                 </Button>
             </View>
-            <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-                maximumDate={new Date()}
-            />
         </>
     );
 };

@@ -83,7 +83,7 @@ export const SignUp = ({ navigation }: SignUpProps): React.ReactElement => {
             </View>
             <View style={styles.buttonField}>
                 <ScrollView>
-                    <Text style={styles.text}>Sign Up</Text>
+                    <Text style={styles.text}>Đăng ký</Text>
                     <Formik
                         enableReinitialize={true}
                         initialValues={getInitialValues()}
@@ -190,7 +190,7 @@ export const SignUp = ({ navigation }: SignUpProps): React.ReactElement => {
                                         </View>
                                     </View>
                                     <Button onPress={() => handleSubmit()} loading={loading} buttonContainerStyle={styles.buttonSignIn}>
-                                        <Text style={styles.txtSignUp}>Sign up</Text>
+                                        <Text style={styles.txtSignUp}>Đăng ký</Text>
                                     </Button>
                                 </>
                             );

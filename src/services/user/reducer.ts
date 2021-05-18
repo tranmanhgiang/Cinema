@@ -1,6 +1,6 @@
 import { ReducerFactory } from 'redux-actions-ts-reducer';
 
-import { getCurrentUser, getUserSettings, getCurrentUserSuccess } from './actions';
+import { getCurrentUser, getUserSettings, getCurrentUserSuccess, getBookTicketHistorySuccess } from './actions';
 
 export interface DefaultState {
     id: number;
@@ -8,6 +8,11 @@ export interface DefaultState {
     lastName: string;
     email: string;
     phone: number;
+    purchased: number;
+}
+
+export interface DefaultHistory {
+    bookTicketHistory: any[];
 }
 
 const defaultState: DefaultState = {
@@ -16,10 +21,16 @@ const defaultState: DefaultState = {
     lastName: '',
     email: '',
     phone: 0,
+    purchased: 0,
+};
+
+const defaultHistory: DefaultHistory = {
+    bookTicketHistory: [],
 };
 
 class State {
     userProfile: DefaultState = defaultState;
+    history: DefaultHistory = defaultHistory;
 }
 
 const reducer = new ReducerFactory(new State())
@@ -56,6 +67,16 @@ const reducer = new ReducerFactory(new State())
             return {
                 ...state,
                 userProfile: defaultState,
+            };
+        }
+    )
+
+    .addReducer(
+        getBookTicketHistorySuccess,
+        (state: any, action: any): State => {
+            return {
+                ...state,
+                history: action.payload,
             };
         }
     )

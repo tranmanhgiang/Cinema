@@ -140,7 +140,7 @@ export const BookingTicket = ({ route }: any) => {
                 mode="date"
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
-                // minimumDate={new Date()}
+                minimumDate={new Date()}
                 maximumDate={maximumDate}
             />
         </>

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import Header from '@components/AppHeader/Header';
 import styles from './ProfileStyles';
-import { ScenesKey, TOKEN_STORAGE_KEY } from '@common/constants';
+import { ScenesKey, TOKEN_STORAGE_KEY, memberLevel } from '@common/constants';
 import Icon, { VectorIconName } from '@components/VectorIcon/VectorIcon';
 import { Colors } from '@common/assets/theme/variables';
 import common from '@common/assets/theme/common';
@@ -12,18 +12,15 @@ import { useNavigation } from '@react-navigation/native';
 import { logoutAction } from '@services/auth/actions';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUser } from '@services/user/actions';
 import { GlobalState } from '@common/redux/rootReducer';
+import { formatCurrency } from '@common/utils/formatCurrency';
+import { checkCurrentPosition } from '@common/utils';
 
 export const Profile = () => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const userProfile = useSelector((state: GlobalState) => state.user.userProfile);
-    console.log(userProfile);
 
-    useEffect(() => {
-        dispatch(getCurrentUser());
-    }, []);
     const sourceUri = false;
     const renderContentTabBar = () => <Text style={styles.contentTabBar}>Tài khoản</Text>;
     const renderRightTabBar = () => {
@@ -33,7 +30,6 @@ export const Profile = () => {
             </Text>
         );
     };
-    const labels = ['0 đ', '1 500 000 đ', '2 000 000 đ', '4 000 000 đ'];
     const getStepIndicatorIconConfig = ({ position, stepStatus }: { position: number; stepStatus: string }) => {
         const iconConfig = {
             name: 'feed',
@@ -67,6 +63,7 @@ export const Profile = () => {
         }
         return iconConfig;
     };
+
     const customStyles = {
         stepIndicatorSize: 35,
         currentStepIndicatorSize: 35,
@@ -134,7 +131,15 @@ export const Profile = () => {
                             </TouchableOpacity>
                             <View style={styles.txtInfo}>
                                 <Text>{userProfile.lastName + ' ' + userProfile.firstName}</Text>
-                                <Text>Gold</Text>
+                                <Text>
+                                    {checkCurrentPosition(userProfile.purchased) === 0
+                                        ? 'Thường'
+                                        : checkCurrentPosition(userProfile.purchased) === 1
+                                        ? 'Bạc'
+                                        : checkCurrentPosition(userProfile.purchased) === 2
+                                        ? 'Vàng'
+                                        : 'Kim cương'}
+                                </Text>
                             </View>
                         </View>
                         <View style={{ alignItems: 'center' }}>
@@ -188,15 +193,15 @@ export const Profile = () => {
                                 color={Colors.black}
                             />
                         </View>
-                        <Text>3.000.000 đ</Text>
+                        <Text>{formatCurrency(userProfile.purchased)} vnđ</Text>
                     </View>
                     <View style={styles.progressMember}>
                         <StepIndicator
                             renderStepIndicator={renderStepIndicator}
                             customStyles={customStyles}
-                            currentPosition={1}
+                            currentPosition={checkCurrentPosition(userProfile.purchased)}
                             stepCount={4}
-                            labels={labels}
+                            labels={memberLevel}
                         />
                     </View>
                 </View>

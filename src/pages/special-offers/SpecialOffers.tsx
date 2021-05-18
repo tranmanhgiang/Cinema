@@ -1,33 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, ScrollView, TouchableOpacity, View, Image } from 'react-native';
 import Header from '@components/AppHeader/Header';
 import styles from './SpecialOfferStyles';
 import { useNavigation } from '@react-navigation/native';
 import { ScenesKey } from '@common/constants';
-
-const DATA_FIXED = [
-    {
-        id: 1,
-        name: 'Aenean leo',
-        theater: 1,
-        promoCode: 'HAPPY OX YEAR',
-        imgUrl: 'https://www.cgv.vn/media/wysiwyg/2021/012021/happy-new-year-350x495.png',
-    },
-    {
-        id: 2,
-        name: 'In turpis',
-        theater: 2,
-        promoCode: 'WEDNESDAY',
-        imgUrl: 'https://www.cgv.vn/media/wysiwyg/2020/082020/HAPPY_WEDNESDAY-FINAL_350x495.jpg',
-    },
-    {
-        id: 3,
-        name: 'In turpis',
-        theater: 2,
-        promoCode: 'WEDNESDAY',
-        imgUrl: 'https://www.cgv.vn/media/wysiwyg/2020/082020/HAPPY_WEDNESDAY-FINAL_350x495.jpg',
-    },
-];
+import api from '@common/api';
+import { OptionToast } from '@common/assets/theme/common';
+import { getErrorMessage } from '@common/utils/detectErrorApi';
+import Toast from 'react-native-root-toast';
+import { checkCurrentPosition } from '@common/utils';
+import { useSelector } from 'react-redux';
+import { GlobalState } from '@common/redux/rootReducer';
 
 export interface PromoCodeProps {
     item: any;
@@ -36,7 +19,27 @@ export interface PromoCodeProps {
 
 export const SpecialOffers = () => {
     const navigation = useNavigation();
+    const userProfile = useSelector((state: GlobalState) => state.user.userProfile);
+
     const renderContentTabBar = () => <Text style={styles.title}>Mã giảm giá & Ưu đãi</Text>;
+    const [listCoupons, setListCoupons] = useState<any[]>([]);
+
+    const getCoupons = async () => {
+        try {
+            const res = await api.user.getCoupons();
+            if (res.message === 'true') {
+                const newData: any = [];
+                res.data.map((coupon: any) => {
+                    if (!coupon.memberRole || coupon.memberRole === checkCurrentPosition(userProfile.purchased)) {
+                        newData.push(coupon);
+                    }
+                });
+                setListCoupons(newData);
+            }
+        } catch (error) {
+            Toast.show(getErrorMessage(error), OptionToast);
+        }
+    };
 
     const FilmItem = ({ item, index }: PromoCodeProps) => {
         return (
@@ -44,14 +47,14 @@ export const SpecialOffers = () => {
                 <TouchableOpacity
                     key={index}
                     onPress={() => {
-                        navigation.navigate(ScenesKey.PROMO_CODE_DETAIL);
+                        navigation.navigate(ScenesKey.PROMO_CODE_DETAIL, { item });
                     }}
                 >
-                    <Image source={{ uri: item.imgUrl }} style={styles.image} />
+                    <Image source={{ uri: item.imageUrl }} style={styles.image} />
                 </TouchableOpacity>
                 <View style={styles.infoFilm}>
                     <View style={styles.leftInfo}>
-                        <Text style={styles.filmName}>{item.promoCode}</Text>
+                        <Text style={styles.filmName}>{item.couponCode}</Text>
                         <View style={{ flexDirection: 'row' }} />
                     </View>
                 </View>
@@ -59,12 +62,16 @@ export const SpecialOffers = () => {
         );
     };
 
+    useEffect(() => {
+        getCoupons();
+    }, []);
+
     return (
         <>
             <Header contentTabBar={renderContentTabBar()} />
             <ScrollView>
                 <View style={styles.container}>
-                    {DATA_FIXED.map((data, index) => {
+                    {listCoupons.map((data, index) => {
                         return <FilmItem key={index} item={data} index={index} />;
                     })}
                 </View>

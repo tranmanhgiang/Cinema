@@ -16,16 +16,16 @@ export const TicketInfo = ({ onOk, ticketItem }: TicketInfoProps) => {
             <Text style={styles.guide}>Đưa thông tin này để nhân viên checkin và nhận vé khi đến rạp.</Text>
             <View style={styles.inFoTicket}>
                 <View>
-                    <Text style={styles.titleInfo}>THEATER</Text>
+                    <Text style={styles.titleInfo}>RẠP</Text>
                     <Text>{ticketItem.name}</Text>
                 </View>
                 <View>
-                    <Text style={styles.titleInfo}>DATE</Text>
+                    <Text style={styles.titleInfo}>NGÀY</Text>
                     <Text>{ticketItem.date}</Text>
                 </View>
                 <View>
-                    <Text style={styles.titleInfo}>TIME</Text>
-                    <Text>{dayjs(ticketItem.time).format('HH:mm A')}</Text>
+                    <Text style={styles.titleInfo}>GIỜ</Text>
+                    <Text>{dayjs(parseInt(ticketItem.time, 10)).format('HH:mm A')}</Text>
                 </View>
             </View>
             <View style={{ alignItems: 'center' }}>

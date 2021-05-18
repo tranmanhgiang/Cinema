@@ -23,6 +23,7 @@ export enum ScenesKey {
     SET_NEW_PASSWORD = 'SetNewPassword',
     CHOOSE_SEATS = 'ChooseSeats',
     PAYMENT = 'Payment',
+    COUPON = 'Coupon',
     VN_PAY = 'VNPay',
     SCREEN_1 = 'Screen 1',
     SCREEN_2 = 'Screen 2',
@@ -66,3 +67,5 @@ export const listFilmsDefault = {
     data: [{ id: 0, fileName: '', imageUrl: 'img', description: '', author: '', actors: '', releaseDate: '', duration: '' }],
     message: '',
 };
+
+export const memberLevel = ['0 đ', '500.000 đ', '1.000.000 đ', '2.000.000 đ'];

@@ -8,10 +8,10 @@ import { Colors } from '@common/assets/theme/variables';
 import styles from './SetNewPasswordStyles';
 import { NavigationProps, RouteNavigationProps } from '@common/types';
 import api from '@common/api';
-import { goToStart } from '../start/StartNavigation';
 import { getErrorMessage } from '@common/utils/detectErrorApi';
 import { OptionToast, OptionToastSuccess } from '@common/assets/theme/common';
 import Toast from 'react-native-root-toast';
+import { goToLogin } from '../login/LoginNavigation';
 
 export interface ForgotPasswordValues {
     password: string;
@@ -41,7 +41,7 @@ export const SetNewPassword = ({ navigation, route }: SetNewPasswordProps): Reac
             await api.auth.forgotPassword(formForgotPassword);
             setLoading(false);
             Toast.show('Reset password successfully', OptionToastSuccess);
-            goToStart(navigation);
+            goToLogin(navigation);
         } catch (error) {
             setLoading(false);
             Toast.show(getErrorMessage(error), OptionToast);
@@ -65,11 +65,11 @@ export const SetNewPassword = ({ navigation, route }: SetNewPasswordProps): Reac
         <View style={styles.background}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flexGrow: 1 }}>
                 <View style={styles.logoField}>
-                    <Text style={styles.title}>Forgot Password</Text>
+                    <Text style={styles.title}>Quên mật khẩu</Text>
                 </View>
                 <View style={styles.buttonField}>
                     <ScrollView>
-                        <Text style={styles.text}>Please enter your new password</Text>
+                        <Text style={styles.text}>Vui lòng nhập mật khẩu mới của bạn</Text>
                         <Formik
                             enableReinitialize={true}
                             initialValues={getInitialValues()}
@@ -114,7 +114,7 @@ export const SetNewPassword = ({ navigation, route }: SetNewPasswordProps): Reac
                                             />
                                         </View>
                                         <Button onPress={() => handleSubmit()} loading={loading} buttonContainerStyle={styles.buttonSubmit}>
-                                            <Text style={styles.txtSubmit}>Submit</Text>
+                                            <Text style={styles.txtSubmit}>Xác nhận</Text>
                                         </Button>
                                     </>
                                 );

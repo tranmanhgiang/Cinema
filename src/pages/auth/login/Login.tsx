@@ -77,7 +77,7 @@ export const Login = ({ navigation }: LoginProps): React.ReactElement => {
                 </View>
                 <View style={styles.buttonField}>
                     <ScrollView>
-                        <Text style={styles.text}>Login</Text>
+                        <Text style={styles.text}>Đăng nhập</Text>
                         <Formik
                             enableReinitialize={true}
                             initialValues={getInitialValues()}
@@ -120,7 +120,7 @@ export const Login = ({ navigation }: LoginProps): React.ReactElement => {
                                             />
                                         </View>
                                         <Button onPress={() => handleSubmit()} loading={loading} buttonContainerStyle={styles.buttonSignIn}>
-                                            <Text style={styles.txtSignIn}>Log In</Text>
+                                            <Text style={styles.txtSignIn}>Đăng nhập</Text>
                                         </Button>
                                     </>
                                 );
@@ -128,10 +128,10 @@ export const Login = ({ navigation }: LoginProps): React.ReactElement => {
                         </Formik>
                         <View style={styles.signUpField}>
                             <Text onPress={() => navigation.navigate(ScenesKey.RESET_PASSWORD)} style={styles.forgotPassword}>
-                                Forgot Password?
+                                Quên mật khẩu?
                             </Text>
                             <Text onPress={() => navigation.navigate(ScenesKey.SIGN_UP)} style={styles.bottomText}>
-                                Don't have a account? <Text style={styles.makerSignUp}>Sign up here</Text>
+                                Không có tài khoản? <Text style={styles.makerSignUp}>Đăng ký tại đây</Text>
                             </Text>
                         </View>
                     </ScrollView>
