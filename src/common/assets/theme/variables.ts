@@ -15,7 +15,7 @@ export enum Colors {
     lightOrange = '#e57b01',
     orangeYellow = '#ffd651',
     lightOrangeYellow = '#fbb03b',
-    redOrange = '#f44336',
+    redOrange = '#f77777',
     orchid = '#68DEE1',
     brightGrey = '#54575d',
     veryBrightGrey = '#53575E',

@@ -1,11 +1,23 @@
-import { Colors, FontSize, SCREEN_WIDTH } from '@common/assets/theme/variables';
-import { FONTS } from '@common/constants';
+import { Colors, SCREEN_WIDTH } from '@common/assets/theme/variables';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
     seat: {
         borderWidth: 2,
         borderColor: Colors.red,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        width: SCREEN_WIDTH / 10,
+        height: 30,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        margin: 10,
+        color: Colors.black,
+    },
+    seatChosen: {
+        borderWidth: 2,
+        borderColor: Colors.red,
+        backgroundColor: Colors.redOrange,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         width: SCREEN_WIDTH / 10,

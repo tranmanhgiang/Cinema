@@ -7,7 +7,7 @@ export default StyleSheet.create({
         fontSize: FontSize.xLarge,
         fontFamily: FONTS.SFProText.BOLD,
     },
-    imageView: { width: 60, height: 60, resizeMode: 'cover', borderRadius: 30 },
+    imageView: { width: 50, height: 50, resizeMode: 'cover', borderRadius: 30 },
     avatar: {
         backgroundColor: Colors.whiteSmoke,
         borderRadius: 30,

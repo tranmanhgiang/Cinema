@@ -38,7 +38,8 @@ export const Home = () => {
                     }}
                 >
                     {userProfile.id ? (
-                        <Image source={ImageUrls.LOGO} style={styles.imageView} />
+                        // <Image source={ImageUrls.LOGO} style={styles.imageView} />
+                        <Image source={require('@common/assets/images/pop1.jpeg')} style={styles.imageView} />
                     ) : (
                         <Icon containerStyle={styles.iconPerson} type={VectorIconName.Ionicons} name="person-outline" size={40} color={Colors.red} />
                     )}

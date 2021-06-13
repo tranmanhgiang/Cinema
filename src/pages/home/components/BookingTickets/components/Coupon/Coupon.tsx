@@ -9,7 +9,7 @@ import Button from '@components/Button/Button';
 import { CouponItem } from './CouponItem';
 
 export const Coupon = ({ route }: any) => {
-    const { listCoupons, onSelectedCoupon } = route.params;
+    const { listCoupons, filmId, onSelectedCoupon } = route.params;
 
     const navigation = useNavigation();
     const [isSelected, setSelection] = useState<number>(0);
@@ -74,7 +74,15 @@ export const Coupon = ({ route }: any) => {
                 </View>
                 <ScrollView>
                     {listCoupons.map((voucher: any, index: number) => {
-                        return <CouponItem key={index} voucher={voucher} setSelection={setSelection} isSelected={isSelected} />;
+                        return (
+                            <CouponItem
+                                key={index}
+                                voucher={voucher}
+                                setSelection={setSelection}
+                                isSelected={isSelected}
+                                canSelected={!voucher.filmId || voucher.filmId === filmId}
+                            />
+                        );
                     })}
                 </ScrollView>
             </View>

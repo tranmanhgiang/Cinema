@@ -52,4 +52,19 @@ export class UserService {
         const res = await this.axios.get(`${cinemaUrl}get-popcorns`);
         return res.data;
     };
+
+    choosingSeats = async (params: any): Promise<any> => {
+        const res = await this.axios.post(`${cinemaUrl}choosing-seats`, params);
+        return res.data;
+    };
+
+    checkSeatsChosen = async (params: any): Promise<any> => {
+        const res = await this.axios.post(`${cinemaUrl}check-seats-chosen`, params);
+        return res.data;
+    };
+
+    delSeatChosen = async (): Promise<any> => {
+        const res = await this.axios.post(`${cinemaUrl}del-seat-chosen`);
+        return res.data;
+    };
 }

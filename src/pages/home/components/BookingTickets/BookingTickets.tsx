@@ -104,7 +104,7 @@ export const BookingTicket = ({ route }: any) => {
                                         handleSelectTheater(item);
                                     }}
                                 >
-                                    <Text>cinema {item}</Text>
+                                    <Text>Phòng {item}</Text>
                                     <Icon
                                         type={VectorIconName.FontAweSome}
                                         name={cinemaSelected === item ? 'angle-up' : 'angle-down'}

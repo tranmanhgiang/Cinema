@@ -86,7 +86,7 @@ export const ComingSoon = () => {
                             navigation.navigate(ScenesKey.FILM_DETAIL, { film: item, type: FILM_DETAIL_TYPE_SCREEN.CAN_NOT_BOOK_TICKET });
                         }}
                     >
-                        <Text style={styles.txtDetail}>Detail</Text>
+                        <Text style={styles.txtDetail}>Chi tiết</Text>
                         <Icon type={VectorIconName.FontAweSome} name="long-arrow-right" size={18} color={Colors.red} />
                     </TouchableOpacity>
                 </View>

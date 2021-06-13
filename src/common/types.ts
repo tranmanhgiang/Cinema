@@ -18,5 +18,7 @@ export interface RouteNavigationProps {
 
 export interface SeatStatus {
     index: number;
+    name: string;
     isSelected: boolean;
+    isChosen: boolean;
 }

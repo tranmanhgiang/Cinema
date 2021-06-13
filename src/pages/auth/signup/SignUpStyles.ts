@@ -7,6 +7,11 @@ export default StyleSheet.create({
         flex: 1,
         resizeMode: 'cover',
     },
+    appName: {
+        color: Colors.red,
+        fontSize: FontSize.xxLarge,
+        fontFamily: FONTS.SFProText.BOLD,
+    },
     text: {
         color: Colors.red,
         fontSize: FontSize.xxLarge,

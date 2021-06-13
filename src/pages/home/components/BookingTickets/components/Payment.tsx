@@ -56,7 +56,7 @@ export const Payment = ({ route }: any) => {
             if (res.message === 'true') {
                 const newData: any = [];
                 res.data.map((coupon: any) => {
-                    if (!coupon.memberRole || coupon.memberRole === checkCurrentPosition(userProfile.purchased)) {
+                    if (!coupon.memberRole || coupon.memberRole <= checkCurrentPosition(userProfile.purchased)) {
                         newData.push(coupon);
                     }
                 });
@@ -70,7 +70,13 @@ export const Payment = ({ route }: any) => {
     const onSelectedCoupon = (item: number | string) => {
         const couponItem = listCoupons.find((coupon) => coupon.id === item || coupon.couponCode === item);
         if (couponItem) {
-            setCouponApply({ type: couponItem.couponType, value: couponItem.values, name: couponItem.name });
+            if (!couponItem.filmId || couponItem.filmId === filmId) {
+                setCouponApply({ type: couponItem.couponType, value: couponItem.values, name: couponItem.name });
+            } else {
+                setTimeout(() => {
+                    Toast.show('Mã giảm giá không áp dụng cho phim này', OptionToast);
+                }, 2000);
+            }
         } else {
             setCouponApply(defaultCouponApply);
             setTimeout(() => {
@@ -95,6 +101,7 @@ export const Payment = ({ route }: any) => {
 
     const bookTicket = async () => {
         try {
+            await api.user.delSeatChosen();
             const formBookTicket = {
                 price: actualPrice,
                 code: formatOrderByDate(),
@@ -103,7 +110,7 @@ export const Payment = ({ route }: any) => {
                 filmId,
                 theaterId: cinemaSelected,
                 seat: ticket.seats,
-                popcornId: popcornDrinksId,
+                popcornId: popcornDrinksId.length > 0 ? popcornDrinksId : '0',
             };
             await api.user.bookTicket(formBookTicket);
             if (emailFriends.length > 0) {
@@ -156,10 +163,11 @@ export const Payment = ({ route }: any) => {
                     <Text style={styles.txtYourBooking}>THÔNG TIN VÉ</Text>
                     <Text>Phim: {filmName}</Text>
                     <Text>
-                        Thời gian: {dayjs(bookingTime).format('HH:mm')}h ngày {dayjs(bookingDate).format('DD-MM-YYYY')} Rạp {cinemaSelected}
+                        Thời gian: {dayjs(parseInt(bookingTime, 10)).format('HH:mm')}h ngày {dayjs(bookingDate).format('DD-MM-YYYY')} Rạp{' '}
+                        {cinemaSelected}
                     </Text>
                     <Text>Số lượng: {ticket.seats.length} vé</Text>
-                    <Text>Số ghế: {ticket.seats.map((seat) => seat + ' ')}</Text>
+                    <Text>Số ghế: {ticket.seats.map((seat) => seat.name + ' ')}</Text>
                     <Text>Bỏng & nước: {popcornDrinks}</Text>
                     <Text style={styles.txtTotal}>TỔNG TIỀN</Text>
                     <Text style={styles.priceForPayment}>{formatCurrency(actualPrice)} vnđ</Text>
@@ -179,7 +187,7 @@ export const Payment = ({ route }: any) => {
                         style={{ flexDirection: 'row' }}
                         onPress={() => {
                             setActualPrice(price);
-                            navigation.navigate(ScenesKey.COUPON, { listCoupons, onSelectedCoupon });
+                            navigation.navigate(ScenesKey.COUPON, { listCoupons, filmId, onSelectedCoupon });
                         }}
                     >
                         {!couponApply.name.length ? (

@@ -73,7 +73,8 @@ export const Login = ({ navigation }: LoginProps): React.ReactElement => {
         <View style={styles.background}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flexGrow: 1 }}>
                 <View style={styles.logoField}>
-                    <Image source={ImageUrls.LOGO} style={styles.logo} />
+                    {/* <Image source={ImageUrls.LOGO} style={styles.logo} /> */}
+                    <Text style={styles.appName}>Bán vé online</Text>
                 </View>
                 <View style={styles.buttonField}>
                     <ScrollView>

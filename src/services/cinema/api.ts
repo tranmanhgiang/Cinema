@@ -1,4 +1,4 @@
-import { GetCinemaByIdParams, ListFilmsResponse, SendEmailInviteFriendsParams } from '@common/api/ApiTypes';
+import { GetCinemaByIdParams, GetSeatOfCinemaParams, ListFilmsResponse, SendEmailInviteFriendsParams } from '@common/api/ApiTypes';
 import { AxiosInstance } from 'axios';
 
 const cinemaUrl = '/cinema/';
@@ -33,6 +33,11 @@ export class CinemaService {
 
     sendEmailInviteFriends = async (params: SendEmailInviteFriendsParams): Promise<any> => {
         const res = await this.axios.post(`${cinemaUrl}send-email-invite-friends`, params);
+        return res.data;
+    };
+
+    getSeatOfCinema = async (params: GetSeatOfCinemaParams): Promise<any> => {
+        const res = await this.axios.post(`${cinemaUrl}get-seats-of-room`, params);
         return res.data;
     };
 }

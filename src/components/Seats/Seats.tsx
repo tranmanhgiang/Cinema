@@ -10,34 +10,36 @@ interface SeatProps {
     seatArr: SeatStatus[];
     isVisibleBuyTicket: boolean;
     setIsVisibleBuyTicket: React.Dispatch<React.SetStateAction<boolean>>;
+    handleSelect: (seats: SeatStatus) => void;
+    seatSelected: any[];
 }
 
-export const Seats = ({ seatArr, isVisibleBuyTicket, setIsVisibleBuyTicket }: SeatProps) => {
-    const dispatch = useDispatch();
-    const [seatSelected, setSeatSelected] = useState<number[]>([]);
+export const Seats = ({ seatArr, isVisibleBuyTicket, setIsVisibleBuyTicket, handleSelect, seatSelected }: SeatProps) => {
+    // const dispatch = useDispatch();
+    // const [seatSelected, setSeatSelected] = useState<any[]>([]);
 
-    const handleSelect = (seat: SeatStatus) => {
-        if (!seat.isSelected) {
-            const seatIndex = seatSelected.indexOf(seat.index);
-            const newSeatSelected = [...seatSelected];
-            if (seatIndex !== -1) {
-                newSeatSelected.splice(seatIndex, 1);
-                setSeatSelected(newSeatSelected);
-            } else {
-                newSeatSelected.push(seat.index);
-                setSeatSelected(newSeatSelected);
-            }
-        }
-    };
+    // const handleSelect = (seat: SeatStatus) => {
+    //     if (!seat.isSelected && !seat.isChosen) {
+    //         const seatIndex = seatSelected.indexOf(seat);
+    //         const newSeatSelected = [...seatSelected];
+    //         if (seatIndex !== -1) {
+    //             newSeatSelected.splice(seatIndex, 1);
+    //             setSeatSelected(newSeatSelected);
+    //         } else {
+    //             newSeatSelected.push(seat);
+    //             setSeatSelected(newSeatSelected);
+    //         }
+    //     }
+    // };
 
-    useEffect(() => {
-        if (seatSelected.length && !isVisibleBuyTicket) {
-            setIsVisibleBuyTicket(true);
-        } else if (!seatSelected.length && isVisibleBuyTicket) {
-            setIsVisibleBuyTicket(false);
-        }
-        dispatch(getSelectedSeats({ seats: seatSelected }));
-    }, [seatSelected]);
+    // useEffect(() => {
+    //     if (seatSelected.length && !isVisibleBuyTicket) {
+    //         setIsVisibleBuyTicket(true);
+    //     } else if (!seatSelected.length && isVisibleBuyTicket) {
+    //         setIsVisibleBuyTicket(false);
+    //     }
+    //     dispatch(getSelectedSeats({ seats: seatSelected }));
+    // }, [seatSelected]);
 
     return (
         <>
@@ -48,7 +50,8 @@ export const Seats = ({ seatArr, isVisibleBuyTicket, setIsVisibleBuyTicket }: Se
                             key={index}
                             seat={seat}
                             handleSelect={handleSelect}
-                            isSelect={seatSelected.indexOf(seat.index) !== -1 || seat.isSelected}
+                            isSelect={seatSelected.indexOf(seat) !== -1 || seat.isSelected}
+                            isChosen={seat.isChosen}
                         />
                     );
                 })}
@@ -56,7 +59,11 @@ export const Seats = ({ seatArr, isVisibleBuyTicket, setIsVisibleBuyTicket }: Se
             <View style={styles.note}>
                 <View style={styles.noteItem}>
                     <Text style={styles.seat} />
-                    <Text>còn trống</Text>
+                    <Text>ghế thường</Text>
+                </View>
+                <View style={styles.noteItem}>
+                    <Text style={styles.seat}>V_</Text>
+                    <Text>ghế vip</Text>
                 </View>
                 <View style={styles.noteItem}>
                     <Text style={styles.seatSelected} />

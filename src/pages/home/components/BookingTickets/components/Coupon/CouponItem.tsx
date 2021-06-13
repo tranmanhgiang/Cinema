@@ -8,11 +8,16 @@ interface CouponItemProp {
     voucher: any;
     isSelected: number;
     setSelection: React.Dispatch<React.SetStateAction<number>>;
+    canSelected: boolean;
 }
 
-export const CouponItem = ({ voucher, setSelection, isSelected }: CouponItemProp) => {
+export const CouponItem = ({ voucher, setSelection, isSelected, canSelected }: CouponItemProp) => {
     return (
-        <TouchableOpacity style={styles.itemContainer} onPress={() => setSelection(voucher.id)}>
+        <TouchableOpacity
+            disabled={!canSelected}
+            style={canSelected ? styles.itemContainer : styles.itemDisableContainer}
+            onPress={() => setSelection(voucher.id)}
+        >
             <Image source={{ uri: voucher.imageUrl }} style={styles.imgVoucher} />
             <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-around' }}>
                 <View style={styles.voucherDescription}>

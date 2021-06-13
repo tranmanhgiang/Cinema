@@ -7,16 +7,17 @@ interface SeatProps {
     seat: SeatStatus;
     handleSelect: (seat: SeatStatus) => void;
     isSelect: boolean;
+    isChosen: boolean;
 }
 
-export const Seat = ({ seat, handleSelect, isSelect }: SeatProps) => {
+export const Seat = ({ seat, handleSelect, isSelect, isChosen }: SeatProps) => {
     return (
         <TouchableOpacity
             onPress={() => {
                 handleSelect(seat);
             }}
         >
-            <Text style={isSelect ? styles.seatSelected : styles.seat}>{seat.index}</Text>
+            <Text style={isSelect ? styles.seatSelected : isChosen ? styles.seatChosen : styles.seat}>{seat.name}</Text>
         </TouchableOpacity>
     );
 };

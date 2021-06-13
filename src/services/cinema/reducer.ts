@@ -1,10 +1,11 @@
 import { ToppingType } from '@common/api/ApiTypes';
+import { SeatStatus } from '@common/types';
 import { ReducerFactory } from 'redux-actions-ts-reducer';
 import { addToppingSuccess, checkout, getSelectedSeats, resetCheckout } from './actions';
 
 export interface DefaultState {
     totalSeats: number;
-    seats: number[];
+    seats: any[];
     price: number;
     topping: ToppingType[];
     toppingPrice: number;
@@ -30,10 +31,15 @@ const reducer = new ReducerFactory(new State())
     .addReducer(
         getSelectedSeats,
         (state: any, action: any): State => {
+            let newPrice = 0;
+            action.payload.seats.map((seat: SeatStatus) => {
+                newPrice += seat.name.includes('V_') ? 90000 : 75000;
+            });
             return {
                 ...state,
                 totalSeats: action.payload.seats.length,
                 seats: action.payload.seats,
+                price: newPrice,
             };
         }
     )
@@ -57,7 +63,6 @@ const reducer = new ReducerFactory(new State())
         (state: any): State => {
             return {
                 ...state,
-                price: state.totalSeats * 75000,
             };
         }
     )

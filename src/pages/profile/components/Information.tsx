@@ -46,7 +46,8 @@ export const Information = () => {
     return (
         <>
             <View>
-                <Image source={require('@common/assets/images/bgau.jpg')} style={styles.imageCover} />
+                {/* <Image source={require('@common/assets/images/bgau.jpg')} style={styles.imageCover} /> */}
+                <Image source={require('@common/assets/images/startBackground.png')} style={styles.imageCover} />
                 <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
                     <Icon type={VectorIconName.Feather} name="arrow-left" size={25} color={Colors.white} />
                 </TouchableOpacity>

@@ -80,6 +80,15 @@ export default StyleSheet.create({
         backgroundColor: Colors.white,
         borderBottomWidth: 0.5,
     },
+    itemDisableContainer: {
+        flexDirection: 'row',
+        marginHorizontal: 16,
+        marginVertical: 5,
+        alignItems: 'center',
+        backgroundColor: Colors.white,
+        borderWidth: 1,
+        borderColor: Colors.red,
+    },
     voucherDescription: {
         flex: 5,
         marginLeft: 10,

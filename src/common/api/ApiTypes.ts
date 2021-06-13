@@ -120,3 +120,7 @@ export interface SendEmailInviteFriendsParams {
     email: string;
     content: string;
 }
+
+export interface GetSeatOfCinemaParams {
+    roomId: number;
+}
